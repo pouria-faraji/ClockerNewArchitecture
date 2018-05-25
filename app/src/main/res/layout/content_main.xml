@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+   >
+    <data>
+        <variable
+            name="contentMainVM"
+            type="com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel"></variable>
+    </data>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#00000000"
+    android:id="@+id/main_layout"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.blacksite.clockernewarchitecture.view.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+    <RelativeLayout
+        android:id="@+id/clock_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@{contentMainVM.clockMainLayoutHeight, default=wrap_content}"
+        android:layout_marginTop="@dimen/main_activity_margin"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="@dimen/main_activity_margin"
+        android:layout_marginStart="@dimen/main_activity_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+        <ImageView
+            android:id="@+id/clock_wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="@{contentMainVM.clockWallpaperHeight, default=wrap_content}"
+            android:scaleType="matrix"
+            app:setBitmap="@{contentMainVM.getWallpaperAsBitmap()}"/>
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/clock_background_rounded_frame"/>-->
+        <RelativeLayout
+            android:id="@+id/clock_canvas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/clock_dial_imageview"
+                android:layout_width="@{contentMainVM.clockDialImageviewWidth, default=wrap_content}"
+                android:layout_height="@{contentMainVM.clockDialImageviewHeight, default=wrap_content}"
+                android:layout_marginTop="0dp"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:id="@+id/clock_face_imageview"
+                android:layout_width="@{contentMainVM.clockFaceImageviewWidth, default=wrap_content}"
+                android:layout_height="@{contentMainVM.clockFaceImageviewHeight, default=wrap_content}"
+                android:layout_marginTop="0dp"
+                android:layout_centerInParent="true"
+                android:cropToPadding="true"
+                android:src="@drawable/splash"
+                app:imagePadding="@{contentMainVM.clockFaceImageviewPadding}"/>
+        </RelativeLayout>
+
+        <include
+            layout="@layout/clocks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_grid_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/main_activity_margin"
+        android:layout_marginEnd="@dimen/main_activity_margin"
+        android:layout_marginStart="@dimen/main_activity_margin"
+        android:visibility="visible"/>
+
+    <!--<GridView-->
+    <!--android:id="@+id/main_grid"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:horizontalSpacing="@dimen/main_grid_spacing"-->
+    <!--android:verticalSpacing="@dimen/main_grid_spacing"-->
+    <!--android:listSelector="@drawable/item_background"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginBottom="@dimen/main_activity_margin"-->
+    <!--android:layout_marginEnd="@dimen/main_activity_margin"-->
+    <!--android:layout_marginStart="@dimen/main_activity_margin"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/clock_main_layout"-->
+    <!--android:visibility="gone"/>-->
+    <LinearLayout
+        android:id="@+id/color_btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/face_color_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Face Color"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/dial_color_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Dial Color"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/hand_color_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Hand Color"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingLeft="40dp"
+                android:text="White Background"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="0.5">
+                <Switch
+                    android:id="@+id/white_background_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingLeft="40dp"
+                android:text="Dial Background"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_weight="0.5">
+                <Switch
+                    android:id="@+id/dial_background_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <!--<Button-->
+        <!--android:id="@+id/face_color_btn"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Face Color" />-->
+    </LinearLayout>
+
+</LinearLayout>
+</layout>

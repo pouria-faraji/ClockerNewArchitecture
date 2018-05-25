@@ -1,0 +1,16 @@
+package com.blacksite.clockernewarchitecture.application
+
+class Settings {
+    companion object {
+        val DATABASE_NAME = "ClockerDB"
+        const val DATABASE_VERSION = 1
+        val CLOCK_FACE_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
+        val CLOCK_FACE_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2
+        val CLOCK_FACE_IMAGEVIEW_PADDING = CLOCK_FACE_IMAGEVIEW_WIDTH/5
+        val CLOCK_DIAL_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
+        val CLOCK_DIAL_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2
+        val CLOCK_MAIN_LAYOUT_HEIGHT = Global.getAppWidth()/2
+        val CLOCK_WALLPAPER_HEIGHT = Global.getAppWidth()/2
+        val NUMBER_OF_ITEMS_EACH_ROW = 3
+    }
+}

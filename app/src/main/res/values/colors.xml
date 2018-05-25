@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2b8cb6</color>
+    <color name="colorPrimaryDark">#247699</color>
+    <color name="colorPrimaryDarker">#1c5974</color>
+    <color name="colorAccent">#247699</color>
+
+    <color name="splashTitle">#34afe3</color>
+
+
+    <color name="clock_main_background">#b3b3b3</color>
+    <color name="item_selected">#cc3535</color>
+
+    <color name="red">#e1114f</color>
+    <color name="green">#129e0d</color>
+    <color name="blue">#0073ff</color>
+</resources>
