@@ -30,13 +30,14 @@ class ClockRepository {
     }
 
     private fun refreshClockList() {
-        this.insert(Clock(1, R.drawable.lion_512, R.drawable.lion_512_w, null, Clock.FACE))
-        this.insert(Clock(2, R.drawable.tiger_512, R.drawable.tiger_512_w, null, Clock.FACE))
-        this.insert(Clock(3, R.drawable.no_dial, R.drawable.no_dial, null, Clock.DIAL))
-        this.insert(Clock(4, R.drawable.dial_1, R.drawable.dial_1, null, Clock.DIAL))
-        this.insert(Clock(5, R.drawable.dial_2, R.drawable.dial_2, null, Clock.DIAL))
-        this.insert(Clock(6, R.drawable.dial_3, R.drawable.dial_3, null, Clock.DIAL))
-        this.insert(Clock(7, R.drawable.splash, R.drawable.splash, null, Clock.DIAL))
+        this.insert(Clock(1, R.drawable.transparent_512, R.drawable.transparent_512, null, Clock.FACE))
+        this.insert(Clock(2, R.drawable.lion_512, R.drawable.lion_512_w, null, Clock.FACE))
+        this.insert(Clock(3, R.drawable.tiger_512, R.drawable.tiger_512_w, null, Clock.FACE))
+        this.insert(Clock(4, R.drawable.no_dial, R.drawable.no_dial, null, Clock.DIAL))
+        this.insert(Clock(5, R.drawable.dial_1, R.drawable.dial_1, null, Clock.DIAL))
+        this.insert(Clock(6, R.drawable.dial_2, R.drawable.dial_2, null, Clock.DIAL))
+        this.insert(Clock(7, R.drawable.dial_3, R.drawable.dial_3, null, Clock.DIAL))
+        this.insert(Clock(8, R.drawable.hand_1_grey, R.drawable.hand_1_grey, 1, Clock.HAND))
     }
 
     fun insert(clock: Clock){

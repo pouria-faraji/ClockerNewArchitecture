@@ -45,6 +45,15 @@ class Global {
         fun toBitmap(resource:Int):Bitmap{
             return (ContextCompat.getDrawable(App.appContext!!, resource) as BitmapDrawable).bitmap
         }
+        fun getColorNameByCode(code:Int):String{
+            when(code){
+                1 -> return "grey"
+                2 -> return "blue"
+                3 -> return "red"
+                4 -> return "green"
+                else -> return "grey"
+            }
+        }
 
     }
 }

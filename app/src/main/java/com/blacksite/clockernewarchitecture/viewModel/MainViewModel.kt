@@ -1,10 +1,17 @@
 package com.blacksite.clockernewarchitecture.viewModel
 
+import android.app.Activity
 import android.app.Application
 import android.arch.lifecycle.*
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.LightingColorFilter
+import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat
+import android.view.View
+import android.widget.AnalogClock
 import com.blacksite.clocker.application.PrefManager
 import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
@@ -15,7 +22,6 @@ import com.blacksite.clockernewarchitecture.repository.ClockRepository
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    //This is a Test commit
     var clockRepository:ClockRepository = ClockRepository(application)
     var clockLiveData:MutableLiveData<List<Clock>> = MutableLiveData<List<Clock>>()
     var allClocksLiveData:LiveData<List<Clock>>
@@ -27,12 +33,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentHandPosition = MutableLiveData<Int>()
     var whiteBackgroundCheck = MutableLiveData<Boolean>()
     var faces = ArrayList<Clock>()
+    var dials = ArrayList<Clock>()
+    var hands = ArrayList<Clock>()
     var generated = false
+    var uiUpdated = false
+    var colorPanelClicked = MutableLiveData<Boolean>()
     init {
         currentFacePosition.value = prefManager!!.facePosition
         currentDialPosition.value = prefManager!!.dialPosition
         currentHandPosition.value = prefManager!!.handPosition
         mode.value = Clock.FACE
+        colorPanelClicked.value = false
         clockRepository.getClocks(mode.value!!, clockLiveData)
         allClocksLiveData = clockRepository.getAllClocks()
 //        clockRepository.getAllClocks(allClocksLiveData)
@@ -50,6 +61,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return result.toMutableList()
     }
     fun setMode(type:Int){
+        this.colorPanelClicked.value = false
         this.mode.value = type
     }
     fun refreshClocks() {
@@ -82,6 +94,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             Global.toBitmap(R.drawable.transparent_512)
         }
     }
+    fun getSelectedDialImage():Bitmap{
+        return if(dials.size != 0) {
+            (ContextCompat.getDrawable(getApplication(), dials!![currentDialPosition.value!!].image!!) as BitmapDrawable).bitmap
+        }else{
+            Global.toBitmap(R.drawable.transparent_512)
+        }
+    }
+    fun getSelectedFaceColor():LightingColorFilter{
+        return LightingColorFilter(Color.WHITE, Color.parseColor(prefManager!!.faceColor))
+    }
+    fun getSelectedDialColor():Int{
+        return Color.parseColor(prefManager!!.dialColor)
+    }
     fun generateReducedBitmaps(){
         if(!generated) {
             reducedBitmaps.value = HashMap<Int, Bitmap>()
@@ -98,10 +123,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return Bitmap.createScaledBitmap(bitmap, bitmap.width/5, bitmap.height/5, true)
     }
 
-    fun filterFaces() {
+    fun filterComponents() {
         for(clock in this.allClocksLiveData.value!!){
             if(clock.type == Clock.FACE){
                 faces.add(clock)
+            }
+            if(clock.type == Clock.DIAL){
+                dials.add(clock)
+            }
+            if(clock.type == Clock.HAND){
+                hands.add(clock)
             }
         }
     }
@@ -109,5 +140,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun updateUI() {
 
 //        (ContextCompat.getDrawable(getApplication(), if (whiteBackgroundCheck.value!!) (faces!![currentFacePosition.value!!].imageWhite!!) else (faces!![currentFacePosition.value!!].image)) as BitmapDrawable).bitmap
+    }
+
+    fun getDialBackgroundVisibility(): Int {
+        return if(prefManager!!.dialBackgroundCheck){
+            View.VISIBLE
+        }else{
+            View.GONE
+        }
     }
 }

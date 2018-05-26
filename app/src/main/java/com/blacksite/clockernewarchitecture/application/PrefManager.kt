@@ -75,7 +75,7 @@ class PrefManager(internal var _context: Context) {
             editor.commit()
         }
     var colorCode: Int
-        get() = pref.getInt(COLOR_CODE, 1)
+        get() = pref.getInt(COLOR_CODE, 1)//1 -> grey, 2 -> blue, 3 -> red, 4 -> green
         set(colorCode){
             editor.putInt(COLOR_CODE, colorCode)
             editor.commit()
