@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.AnalogClock
+import com.blacksite.clocker.view.HandColorDialog
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
@@ -37,6 +38,7 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.hand_color_dialog.*
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LifecycleOwner {
@@ -195,6 +197,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     val showFaceColorClickListener = View.OnClickListener { view ->
         showFaceColorDialog()
+    }
+
+    private fun showHandColorDialog(){
+        var currentHandPosition = viewModel.currentHandPosition.value
+        var dialog = HandColorDialog(this)
+        dialog.show()
+        dialog.hand_color_dialog_ok_button.setOnClickListener {
+            viewModel.prefManager!!.colorCode = dialog.selectedColorCode
+            createHand(viewModel.currentHandPosition.value, viewModel.prefManager!!.colorCode)
+//            hand.makeAllGone(this, viewModel.hands[currentHandPosition!!].number!!, prefManager!!.colorCode)
+            dialog.dismiss()
+        }
     }
 
     fun showDialColorDialog(){

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import com.blacksite.clockernewarchitecture.R
 
 class Global {
     companion object {
@@ -52,6 +53,24 @@ class Global {
                 3 -> return "red"
                 4 -> return "green"
                 else -> return "grey"
+            }
+        }
+        fun getCircleResourceByColorCode(code:Int):Int{
+            when(code){
+                1 -> return R.drawable.grey_circle
+                2 -> return R.drawable.blue_circle
+                3 -> return R.drawable.red_circle
+                4 -> return R.drawable.green_circle
+                else -> return R.drawable.grey_circle
+            }
+        }
+        fun getSelectedCircleResourceByColorCode(code:Int):Int{
+            when(code){
+                1 -> return R.drawable.grey_circle_selected
+                2 -> return R.drawable.blue_circle_selected
+                3 -> return R.drawable.red_circle_selected
+                4 -> return R.drawable.green_circle_selected
+                else -> return R.drawable.grey_circle_selected
             }
         }
 
