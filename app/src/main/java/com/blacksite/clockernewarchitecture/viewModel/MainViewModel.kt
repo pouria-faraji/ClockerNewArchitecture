@@ -15,7 +15,7 @@ import com.blacksite.clockernewarchitecture.repository.ClockRepository
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-
+    //This is a Test commit
     var clockRepository:ClockRepository = ClockRepository(application)
     var clockLiveData:MutableLiveData<List<Clock>> = MutableLiveData<List<Clock>>()
     var allClocksLiveData:LiveData<List<Clock>>
