@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.AnalogClock
+import android.widget.CompoundButton
 import com.blacksite.clocker.view.HandColorDialog
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
@@ -107,6 +108,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.whiteBackgroundCheck.observe(this, Observer {
             clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
+            clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
+        })
+        viewModel.dialBackgroundCheck.observe(this, Observer {
+            if(it!!){
+                clock_dial_imageview.visibility = View.VISIBLE
+            }else{
+                clock_dial_imageview.visibility = View.GONE
+            }
         })
         viewModel.colorPanelClicked.observe(this, Observer {
             if(it!!){
@@ -160,6 +169,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         face_color_btn.setOnClickListener(showFaceColorClickListener)
         dial_color_btn.setOnClickListener(showDialColorClickListener)
         hand_color_btn.setOnClickListener(showHandColorClickListener)
+        white_background_switch.setOnCheckedChangeListener(whiteCheckChangeListener)
+        dial_background_switch.setOnCheckedChangeListener(dialCheckChangeListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -197,6 +208,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     val showFaceColorClickListener = View.OnClickListener { view ->
         showFaceColorDialog()
+    }
+    val whiteCheckChangeListener = CompoundButton.OnCheckedChangeListener{
+        buttonView, isChecked ->
+        if(isChecked){
+            viewModel.prefManager.whiteBackgroundCheck = true
+            viewModel.whiteBackgroundCheck.value = true
+        }
+        else{
+            viewModel.prefManager.whiteBackgroundCheck = false
+            viewModel.whiteBackgroundCheck.value = false
+        }
+    }
+    val dialCheckChangeListener = CompoundButton.OnCheckedChangeListener{
+        buttonView, isChecked ->
+        if(isChecked){
+            viewModel.prefManager!!.dialBackgroundCheck = true
+            viewModel.dialBackgroundCheck.value = true
+        }else{
+            viewModel.prefManager!!.dialBackgroundCheck = false
+            viewModel.dialBackgroundCheck.value = false
+        }
     }
 
     private fun showHandColorDialog(){

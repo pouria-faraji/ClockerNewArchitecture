@@ -32,6 +32,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var currentDialPosition = MutableLiveData<Int>()
     var currentHandPosition = MutableLiveData<Int>()
     var whiteBackgroundCheck = MutableLiveData<Boolean>()
+    var dialBackgroundCheck = MutableLiveData<Boolean>()
     var faces = ArrayList<Clock>()
     var dials = ArrayList<Clock>()
     var hands = ArrayList<Clock>()
@@ -48,6 +49,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         allClocksLiveData = clockRepository.getAllClocks()
 //        clockRepository.getAllClocks(allClocksLiveData)
         whiteBackgroundCheck.value = prefManager!!.whiteBackgroundCheck
+        dialBackgroundCheck.value = prefManager!!.dialBackgroundCheck
     }
     fun loadClocksLiveData():MutableLiveData<List<Clock>>{
         return clockLiveData

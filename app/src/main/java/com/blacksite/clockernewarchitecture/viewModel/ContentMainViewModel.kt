@@ -5,6 +5,7 @@ import android.app.WallpaperManager
 import android.arch.lifecycle.AndroidViewModel
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import com.blacksite.clocker.application.PrefManager
 import com.blacksite.clockernewarchitecture.R.id.clock_wallpaper
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
@@ -18,6 +19,9 @@ class ContentMainViewModel(application: Application) : AndroidViewModel(applicat
     var clockDialImageviewHeight:Float
     var clockMainLayoutHeight:Float
     var clockWallpaperHeight:Float
+    var whiteBackgroundCheck:Boolean
+    var dialBackgroundCheck:Boolean
+    var prefManager = PrefManager(application)
     init {
         this.clockFaceImageviewWidth = Settings.CLOCK_FACE_IMAGEVIEW_WIDTH.toFloat()
         this.clockFaceImageviewHeight = Settings.CLOCK_FACE_IMAGEVIEW_HEIGHT.toFloat()
@@ -26,6 +30,8 @@ class ContentMainViewModel(application: Application) : AndroidViewModel(applicat
         this.clockDialImageviewHeight = Settings.CLOCK_DIAL_IMAGEVIEW_HEIGHT.toFloat()
         this.clockMainLayoutHeight = Settings.CLOCK_MAIN_LAYOUT_HEIGHT.toFloat()
         this.clockWallpaperHeight = Settings.CLOCK_WALLPAPER_HEIGHT.toFloat()
+        this.whiteBackgroundCheck = prefManager.whiteBackgroundCheck
+        this.dialBackgroundCheck = prefManager.dialBackgroundCheck
     }
     fun getWallpaperAsBitmap():Bitmap{
         var wallpaperManager: WallpaperManager = WallpaperManager.getInstance(getApplication())

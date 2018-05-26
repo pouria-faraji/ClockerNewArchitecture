@@ -168,7 +168,8 @@
                 <Switch
                     android:id="@+id/white_background_switch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:checked="@{contentMainVM.whiteBackgroundCheck}"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -192,7 +193,8 @@
                 <Switch
                     android:id="@+id/dial_background_switch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:checked="@{contentMainVM.dialBackgroundCheck}"/>
             </RelativeLayout>
 
         </LinearLayout>
