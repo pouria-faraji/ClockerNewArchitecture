@@ -1,21 +1,19 @@
 package com.blacksite.clockernewarchitecture.viewModel
 
-import android.app.Activity
 import android.app.Application
 import android.arch.lifecycle.*
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.LightingColorFilter
-import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat
 import android.view.View
-import android.widget.AnalogClock
-import com.blacksite.clocker.application.PrefManager
+import android.widget.RemoteViews
 import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
+import com.blacksite.clockernewarchitecture.application.PrefManager
 import com.blacksite.clockernewarchitecture.model.GridItem
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.repository.ClockRepository
@@ -26,7 +24,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var clockLiveData:MutableLiveData<List<Clock>> = MutableLiveData<List<Clock>>()
     var allClocksLiveData:LiveData<List<Clock>>
     var mode:MutableLiveData<Int> = MutableLiveData() // 1 -> Face, 2 -> Dial, 3 -> Hand
-    var prefManager:PrefManager = PrefManager(application)
+    var prefManager: PrefManager = PrefManager(application)
     var reducedBitmaps = MutableLiveData<HashMap<Int, Bitmap>>()
     var currentFacePosition = MutableLiveData<Int>()
     var currentDialPosition = MutableLiveData<Int>()
@@ -137,6 +135,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 hands.add(clock)
             }
         }
+        prefManager.handsList = hands
     }
 
     fun updateUI() {
@@ -151,4 +150,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             View.GONE
         }
     }
+
+    companion object {
+        fun makeAllGoneWidget(context: Context,prefManager: PrefManager, views: RemoteViews) {
+            var resourceName = "hand_" + prefManager.handsList[prefManager.handPosition].number + "_widget_" + Global.getColorNameByCode(prefManager.colorCode)
+            var resourceID = context.resources.getIdentifier(resourceName, "id", context.packageName)
+            for(hand in prefManager.handsList){
+                for(i in 1..4){
+                    var resourceNameTemp = "hand_" + hand.number + "_widget_" + Global.getColorNameByCode(i)
+                    var resourceIDTemp = context.resources.getIdentifier(resourceNameTemp, "id", context.packageName)
+                    views.setViewVisibility(resourceIDTemp, View.GONE)
+                }
+//            remoteViews.setViewVisibility(hand.analogClockWidget!!, View.GONE)
+            }
+            views.setViewVisibility(resourceID, View.VISIBLE)
+        }
+    }
+
 }

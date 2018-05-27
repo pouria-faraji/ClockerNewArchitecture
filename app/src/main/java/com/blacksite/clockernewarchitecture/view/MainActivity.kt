@@ -1,10 +1,10 @@
 package com.blacksite.clockernewarchitecture.view
 
-import android.app.Activity
-import android.app.Application
+import android.appwidget.AppWidgetManager
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.ComponentName
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -24,17 +24,17 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.AnalogClock
 import android.widget.CompoundButton
-import com.blacksite.clocker.view.HandColorDialog
+import android.widget.RemoteViews
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
+import com.blacksite.clockernewarchitecture.customView.HandColorDialog
 import com.blacksite.clockernewarchitecture.databinding.ActivityMainBinding
-import com.blacksite.clockernewarchitecture.databinding.AppBarMainBinding
-import com.blacksite.clockernewarchitecture.databinding.ContentMainBinding
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
+import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
     var recyclerAdapter: ItemAdapter? = null
+    var remoteViews: RemoteViews? = null
+    var thisWidget: ComponentName? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,11 +56,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         prepareDrawer()
         prepareRecylcer()
         prepareObservers()
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
     }
 
     private fun prepareRecylcer(){
@@ -171,6 +168,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         hand_color_btn.setOnClickListener(showHandColorClickListener)
         white_background_switch.setOnCheckedChangeListener(whiteCheckChangeListener)
         dial_background_switch.setOnCheckedChangeListener(dialCheckChangeListener)
+        fab.setOnClickListener(fabClickListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -229,6 +227,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             viewModel.prefManager!!.dialBackgroundCheck = false
             viewModel.dialBackgroundCheck.value = false
         }
+    }
+    val fabClickListener = View.OnClickListener{
+        Snackbar.make(it, "Your widget has been created.", Snackbar.LENGTH_LONG)
+                .setAction("Widget", null).show()
+
+        updateWidget()
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews)
+
     }
 
     private fun showHandColorDialog(){
@@ -302,5 +309,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
                 .build()
                 .show()
+    }
+    fun updateWidget(){
+        remoteViews = RemoteViews(this.packageName, R.layout.widget)
+        thisWidget = ComponentName(this, MyWidgetProvider::class.java)
+        clock_canvas.destroyDrawingCache()
+        clock_canvas.buildDrawingCache()
+        if(clock_canvas.drawingCache != null) {
+            viewModel.prefManager!!.cachedBitmap = Global.saveToInternalStorage(clock_canvas.drawingCache)
+        }
+        remoteViews!!.setImageViewBitmap(R.id.clock_face_imageview_widget, clock_canvas.drawingCache)
+        MainViewModel.makeAllGoneWidget(this, viewModel.prefManager, remoteViews!!)
     }
 }

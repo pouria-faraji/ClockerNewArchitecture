@@ -1,7 +1,13 @@
-package com.blacksite.clocker.application
+package com.blacksite.clockernewarchitecture.application
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.blacksite.clockernewarchitecture.R
+import com.blacksite.clockernewarchitecture.model.database.Clock
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.util.*
+
 
 /**
  * Created by p.faraji on 4/18/2018.
@@ -80,6 +86,23 @@ class PrefManager(internal var _context: Context) {
             editor.putInt(COLOR_CODE, colorCode)
             editor.commit()
         }
+    var handsList: ArrayList<Clock>
+        get() {
+            var gson = Gson()
+            var json = pref.getString(HANDS_LIST, null)
+            if(json == null){
+                var tempList:ArrayList<Clock> = arrayListOf(Clock(1, R.drawable.hand_1_grey, R.drawable.hand_1_grey, 1, Clock.HAND))
+                json = gson.toJson(tempList)
+            }
+            val type = object : TypeToken<ArrayList<Clock>>() {}.type
+            return gson.fromJson(json, type)
+        }
+    set(handsList){
+        var gson = Gson()
+        var json = gson.toJson(handsList)
+        editor.putString(HANDS_LIST, json)
+        editor.commit()
+    }
     init {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         editor = pref.edit()
@@ -102,5 +125,6 @@ class PrefManager(internal var _context: Context) {
         private const val DIAL_BACKGROUND_CHECK =  "dialBackgroundCheck"
         private const val CACHED_BITMAP =  "cachedBitmap"
         private const val COLOR_CODE =  "colorCode"
+        private const val HANDS_LIST =  "handsList"
     }
 }

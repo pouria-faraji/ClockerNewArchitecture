@@ -1,13 +1,16 @@
 package com.blacksite.clockernewarchitecture.application
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
 import com.blacksite.clockernewarchitecture.R
+import java.io.*
 
 class Global {
     companion object {
@@ -72,6 +75,42 @@ class Global {
                 4 -> return R.drawable.green_circle_selected
                 else -> return R.drawable.grey_circle_selected
             }
+        }
+        fun saveToInternalStorage(bitmapImage: Bitmap): String {
+            val cw = ContextWrapper(App.appContext)
+            // path to /data/data/yourapp/app_data/imageDir
+            val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
+            // Create imageDir
+            val mypath = File(directory, "clock.png")
+
+            var fos: FileOutputStream? = null
+            try {
+                fos = FileOutputStream(mypath)
+                // Use the compress method on the BitMap object to write image to the OutputStream
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                try {
+                    fos!!.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            }
+            return directory.absolutePath
+        }
+        fun loadImageFromStorage(path: String):Bitmap {
+            var b:Bitmap? = null
+            try {
+                val f = File(path, "clock.png")
+                b = BitmapFactory.decodeStream(FileInputStream(f))
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } finally {
+                return b!!
+            }
+
         }
 
     }
