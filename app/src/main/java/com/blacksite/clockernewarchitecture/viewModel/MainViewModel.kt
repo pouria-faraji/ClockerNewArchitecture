@@ -17,15 +17,19 @@ import com.blacksite.clockernewarchitecture.application.PrefManager
 import com.blacksite.clockernewarchitecture.model.GridItem
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.repository.ClockRepository
+import com.google.firebase.analytics.FirebaseAnalytics
+import android.os.Bundle
+
+
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     var clockRepository:ClockRepository = ClockRepository(application)
     var clockLiveData:MutableLiveData<List<Clock>> = MutableLiveData<List<Clock>>()
-    var allClocksLiveData:LiveData<List<Clock>>
+    var allClocksLiveData:MutableLiveData<List<Clock>> = MutableLiveData<List<Clock>>()
     var mode:MutableLiveData<Int> = MutableLiveData() // 1 -> Face, 2 -> Dial, 3 -> Hand
     var prefManager: PrefManager = PrefManager(application)
-    var reducedBitmaps = MutableLiveData<HashMap<Int, Bitmap>>()
+    var reducedBitmaps = MutableLiveData<HashMap<String, Bitmap>>()
     var currentFacePosition = MutableLiveData<Int>()
     var currentDialPosition = MutableLiveData<Int>()
     var currentHandPosition = MutableLiveData<Int>()
@@ -44,7 +48,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mode.value = Clock.FACE
         colorPanelClicked.value = false
         clockRepository.getClocks(mode.value!!, clockLiveData)
-        allClocksLiveData = clockRepository.getAllClocks()
+        clockRepository.getAllClocks(allClocksLiveData)
+//        allClocksLiveData = clockRepository.getAllClocks()
 //        clockRepository.getAllClocks(allClocksLiveData)
         whiteBackgroundCheck.value = prefManager!!.whiteBackgroundCheck
         dialBackgroundCheck.value = prefManager!!.dialBackgroundCheck
@@ -89,14 +94,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getSelectedFaceImage():Bitmap{
         return if(faces.size != 0) {
-            (ContextCompat.getDrawable(getApplication(), if (whiteBackgroundCheck.value!!) (faces!![currentFacePosition.value!!].imageWhite!!) else (faces!![currentFacePosition.value!!].image)) as BitmapDrawable).bitmap
+//            (ContextCompat.getDrawable(getApplication(), if (whiteBackgroundCheck.value!!) (faces!![currentFacePosition.value!!].imageWhite!!) else (faces!![currentFacePosition.value!!].image)) as BitmapDrawable).bitmap
+            if(whiteBackgroundCheck.value!!){
+                Global.loadImageFromStorage(Global.absolutePath!!, faces!![currentFacePosition.value!!].imageWhite!!)
+            }else{
+                Global.loadImageFromStorage(Global.absolutePath!!, faces!![currentFacePosition.value!!].image!!)
+            }
         }else{
             Global.toBitmap(R.drawable.transparent_512)
         }
     }
     fun getSelectedDialImage():Bitmap{
         return if(dials.size != 0) {
-            (ContextCompat.getDrawable(getApplication(), dials!![currentDialPosition.value!!].image!!) as BitmapDrawable).bitmap
+//            (ContextCompat.getDrawable(getApplication(), dials!![currentDialPosition.value!!].image!!) as BitmapDrawable).bitmap
+            Global.loadImageFromStorage(Global.absolutePath!!, dials!![currentDialPosition.value!!].image!!)
         }else{
             Global.toBitmap(R.drawable.transparent_512)
         }
@@ -109,7 +120,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun generateReducedBitmaps(){
         if(!generated) {
-            reducedBitmaps.value = HashMap<Int, Bitmap>()
+            reducedBitmaps.value = HashMap<String, Bitmap>()
             reducedBitmaps.value!!.clear()
             var tempList = allClocksLiveData.value
             for (clock in tempList!!) {
@@ -118,8 +129,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             generated = true
         }
     }
-    fun reduceImageAsBitmap(resource:Int):Bitmap{
-        var bitmap = (ContextCompat.getDrawable(getApplication(), resource) as BitmapDrawable).bitmap
+    fun reduceImageAsBitmap(fileName:String):Bitmap{
+        var bitmap = Global.loadImageFromStorage(Global.absolutePath!!, fileName)
+//        var bitmap = (ContextCompat.getDrawable(getApplication(), resource) as BitmapDrawable).bitmap
         return Bitmap.createScaledBitmap(bitmap, bitmap.width/5, bitmap.height/5, true)
     }
 
@@ -149,6 +161,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }else{
             View.GONE
         }
+    }
+
+    fun logToFireBase(mFirebaseAnalytics: FirebaseAnalytics) {
+        val bundle = Bundle()
+        bundle.putString("Face", faces[currentFacePosition.value!!].uid.toString())
+        bundle.putString("Dial", dials[currentDialPosition.value!!].uid.toString())
+        bundle.putString("Hand", hands[currentHandPosition.value!!].uid.toString())
+        mFirebaseAnalytics.logEvent("WIDGET_CREATED", bundle)
     }
 
     companion object {

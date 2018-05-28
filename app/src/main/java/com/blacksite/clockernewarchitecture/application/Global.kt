@@ -15,6 +15,7 @@ import java.io.*
 class Global {
     companion object {
 //        var reducedBitmaps = HashMap<Int, Bitmap>()
+        var absolutePath: String? = null
         fun getStatusBarHeight(): Int {
             var result = 0
             val resourceId = App.appContext!!.resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -76,12 +77,12 @@ class Global {
                 else -> return R.drawable.grey_circle_selected
             }
         }
-        fun saveToInternalStorage(bitmapImage: Bitmap): String {
+        fun saveToInternalStorage(bitmapImage: Bitmap, fileName:String = Settings.CLOCK_PNG): String {
             val cw = ContextWrapper(App.appContext)
             // path to /data/data/yourapp/app_data/imageDir
             val directory = cw.getDir("imageDir", Context.MODE_PRIVATE)
             // Create imageDir
-            val mypath = File(directory, "clock.png")
+            val mypath = File(directory, fileName)
 
             var fos: FileOutputStream? = null
             try {
@@ -100,10 +101,10 @@ class Global {
             }
             return directory.absolutePath
         }
-        fun loadImageFromStorage(path: String):Bitmap {
+        fun loadImageFromStorage(path: String, fileName: String = Settings.CLOCK_PNG):Bitmap {
             var b:Bitmap? = null
             try {
-                val f = File(path, "clock.png")
+                val f = File(path, fileName)
                 b = BitmapFactory.decodeStream(FileInputStream(f))
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()

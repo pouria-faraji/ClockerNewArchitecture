@@ -3,8 +3,14 @@ package com.blacksite.clockernewarchitecture
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.OnLifecycleEvent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
+import com.blacksite.clockernewarchitecture.application.Global
+import com.blacksite.clockernewarchitecture.application.Settings
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
+import java.io.File
+import java.io.FileInputStream
 
 class MainObserver:LifecycleObserver {
     var mainViewModel:MainViewModel
@@ -16,6 +22,9 @@ class MainObserver:LifecycleObserver {
     fun onCreate(){
         Log.e("logger", "created")
         this.mainViewModel.generated = false
+//        val uri = Uri.parse("android.resource://"+"com.blacksite.clockernewarchitecture"+"/raw/"+Settings.DEFAULT_HAND_NAME)
+//        var bitmap = BitmapFactory.decodeStream(FileInputStream(File(uri.path)))
+//        Global.saveToInternalStorage(bitmap, Settings.DEFAULT_HAND_NAME)
 //        this.mainViewModel.generateReducedBitmaps()
     }
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

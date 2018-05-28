@@ -91,7 +91,7 @@ class PrefManager(internal var _context: Context) {
             var gson = Gson()
             var json = pref.getString(HANDS_LIST, null)
             if(json == null){
-                var tempList:ArrayList<Clock> = arrayListOf(Clock(1, R.drawable.hand_1_grey, R.drawable.hand_1_grey, 1, Clock.HAND))
+                var tempList:ArrayList<Clock> = arrayListOf(Clock(1, Settings.DEFAULT_HAND_NAME, Settings.DEFAULT_HAND_NAME, 1, Clock.HAND))
                 json = gson.toJson(tempList)
             }
             val type = object : TypeToken<ArrayList<Clock>>() {}.type

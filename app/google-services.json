@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "818589083798",
+    "firebase_url": "https://clocker-22335.firebaseio.com",
+    "project_id": "clocker-22335",
+    "storage_bucket": "clocker-22335.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:818589083798:android:c4c1242dd53b7a50",
+        "android_client_info": {
+          "package_name": "com.blacksite.clockernewarchitecture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "818589083798-6mi1i7jod73mlt6gi6bjdl8i70kdps86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blacksite.clockernewarchitecture",
+            "certificate_hash": "fa661e27276a3b8bfb04547ec55fa8804a95c137"
+          }
+        },
+        {
+          "client_id": "818589083798-00s3l8mf8c50ji11q83qm90mi8o5d9n7.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "818589083798-00s3l8mf8c50ji11q83qm90mi8o5d9n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQTztdBSNfNtgqSsjCEjAQ_wDsutSI-ZE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "818589083798-00s3l8mf8c50ji11q83qm90mi8o5d9n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

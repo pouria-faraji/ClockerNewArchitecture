@@ -3,6 +3,9 @@ package com.blacksite.clockernewarchitecture.application
 class Settings {
     companion object {
         val DATABASE_NAME = "ClockerDB"
+        val COLLECTION_NAME = "clock"
+        val CLOCK_PNG = "clock.png"
+        val DEFAULT_HAND_NAME = "hand_1_grey"
         const val DATABASE_VERSION = 1
         val CLOCK_FACE_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
         val CLOCK_FACE_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2

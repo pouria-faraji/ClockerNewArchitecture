@@ -13,7 +13,7 @@ interface ClockDao {
     fun getAllByType(type:Int): List<Clock>
 
     @Query("SELECT * FROM clock")
-    fun getAll(): LiveData<List<Clock>>
+    fun getAll(): List<Clock>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(clock: Clock)

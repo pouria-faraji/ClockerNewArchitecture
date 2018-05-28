@@ -38,8 +38,12 @@ import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.hand_color_dialog.*
+import java.util.logging.Handler
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LifecycleOwner {
@@ -48,10 +52,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var recyclerAdapter: ItemAdapter? = null
     var remoteViews: RemoteViews? = null
     var thisWidget: ComponentName? = null
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
+    var mAuth: FirebaseAuth? = null
+    var mUser: FirebaseUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Obtain the FirebaseAnalytics instance.
         setup()
         prepareDrawer()
         prepareRecylcer()
@@ -78,11 +86,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 clock_dial_imageview.visibility = viewModel.getDialBackgroundVisibility()
                 createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
 
-                viewModel.uiUpdated = true
+                if(it!!.isNotEmpty()) {
+                    viewModel.uiUpdated = true
+                }
             }
         })
         viewModel.loadClocksLiveData().observe(this, Observer { list ->
-            viewModel.updateUI()
             recyclerAdapter = ItemAdapter(this, list!!, viewModel)
             main_grid_recycler.adapter = recyclerAdapter
             viewModel.makeAllUnselect(recyclerAdapter)
@@ -95,7 +104,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            Toast.makeText(this, list!!.size.toString(), Toast.LENGTH_LONG).show()
         })
         viewModel.reducedBitmaps.observe(this, Observer {
-            recyclerAdapter!!.notifyDataSetChanged()
+            if(recyclerAdapter!= null) {
+                recyclerAdapter!!.notifyDataSetChanged()
+            }
         })
         viewModel.currentFacePosition.observe(this, Observer {
             clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
@@ -152,6 +163,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
     private fun setup(){
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+//        mAuth = FirebaseAuth.getInstance()
+//        mUser = mAuth!!.currentUser
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         activityMainBinding.setLifecycleOwner(this)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -311,6 +325,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .show()
     }
     fun updateWidget(){
+        viewModel.logToFireBase(mFirebaseAnalytics!!)
         remoteViews = RemoteViews(this.packageName, R.layout.widget)
         thisWidget = ComponentName(this, MyWidgetProvider::class.java)
         clock_canvas.destroyDrawingCache()

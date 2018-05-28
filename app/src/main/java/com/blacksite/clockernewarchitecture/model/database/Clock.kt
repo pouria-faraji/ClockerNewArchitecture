@@ -7,8 +7,8 @@ import com.blacksite.clockernewarchitecture.model.GridItem
 @Entity
 class Clock(@PrimaryKey
             val uid: Int,
-            val image: Int,
-            val imageWhite: Int?,
+            val image: String,
+            val imageWhite: String?,
             val number: Int?,
             val type: Int) {
     fun toGridItem(): GridItem {
