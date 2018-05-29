@@ -9,10 +9,10 @@ import com.blacksite.clockernewarchitecture.model.database.Clock
 
 @Dao
 interface ClockDao {
-    @Query("SELECT * FROM clock WHERE type=:type")
+    @Query("SELECT * FROM clock WHERE type=:type ORDER BY uid ASC")
     fun getAllByType(type:Int): List<Clock>
 
-    @Query("SELECT * FROM clock")
+    @Query("SELECT * FROM clock ORDER BY uid ASC")
     fun getAll(): List<Clock>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

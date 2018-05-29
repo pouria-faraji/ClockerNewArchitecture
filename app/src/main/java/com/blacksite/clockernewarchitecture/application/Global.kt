@@ -5,12 +5,20 @@ import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
 import com.blacksite.clockernewarchitecture.R
+import com.blacksite.clockernewarchitecture.model.database.Clock
 import java.io.*
+import java.nio.file.Files.exists
+import java.io.File.separator
+import android.os.Environment.getDataDirectory
+import android.os.Environment.getExternalStorageDirectory
+import android.util.Log
+
 
 class Global {
     companion object {
@@ -113,6 +121,45 @@ class Global {
             }
 
         }
+        fun addUnique(list:ArrayList<Clock>, clock: Clock){
+            var duplicate = false
+            for(clockList in list){
+                if(clockList.uid == clock.uid){
+                    duplicate = true
+                    continue
+                }
+            }
+            if(!duplicate){
+                list.add(clock)
+            }
+        }
+
+//        fun exportDB() {
+//            try {
+//
+//                val sd = Environment.getExternalStorageDirectory()
+//                val data = Environment.getDataDirectory()
+//
+//                //            if (sd.canWrite()) {
+//                val currentDBPath = File.separator + "data" /*+File.separator+"user"+File.separator+"0"*/ + File.separator + "com.blacksite.clockernewarchitecture" + File.separator + "databases" + File.separator + Settings.DATABASE_NAME
+//                val backupDBPath = File.separator + "DATABASE" + File.separator + "backup.db"
+//                val currentDB = File(data, currentDBPath)
+//                val backupDB = File(sd, backupDBPath)
+//
+//
+//                if (currentDB.exists()) {
+//                    val src = FileInputStream(currentDB).channel
+//                    val dst = FileOutputStream(backupDB).channel
+//                    dst.transferFrom(src, 0, src.size())
+//                    src.close()
+//                    dst.close()
+//                    //                }
+//                }
+//            } catch (e: Exception) {
+//                Log.e("Exception_Export", e.toString())
+//            }
+//
+//        }
 
     }
 }

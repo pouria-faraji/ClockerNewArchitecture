@@ -25,11 +25,13 @@ import android.view.View
 import android.widget.AnalogClock
 import android.widget.CompoundButton
 import android.widget.RemoteViews
+import android.widget.Toast
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
 import com.blacksite.clockernewarchitecture.customView.HandColorDialog
+import com.blacksite.clockernewarchitecture.customView.MessageDialog
 import com.blacksite.clockernewarchitecture.databinding.ActivityMainBinding
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
@@ -53,9 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var remoteViews: RemoteViews? = null
     var thisWidget: ComponentName? = null
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
-
-    var mAuth: FirebaseAuth? = null
-    var mUser: FirebaseUser? = null
+    lateinit var snackbar:Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,20 +76,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             viewModel.refreshClocks()
         })
         viewModel.allClocksLiveData.observe(this, Observer {
-            if(!viewModel.uiUpdated) {
-                viewModel.generateReducedBitmaps()
-                viewModel.filterComponents()
-                clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
-                clock_dial_imageview.setImageBitmap(viewModel.getSelectedDialImage())
-                clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
-                clock_dial_imageview.setColorFilter(viewModel.getSelectedDialColor(),PorterDuff.Mode.MULTIPLY)
-                clock_dial_imageview.visibility = viewModel.getDialBackgroundVisibility()
-                createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
+//            if(!viewModel.uiUpdated) {
+            viewModel.generateReducedBitmaps()
+            viewModel.filterComponents()
+            viewModel.refreshClocks()
+            clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
+            clock_dial_imageview.setImageBitmap(viewModel.getSelectedDialImage())
+            clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
+            clock_dial_imageview.setColorFilter(viewModel.getSelectedDialColor(),PorterDuff.Mode.MULTIPLY)
+            clock_dial_imageview.visibility = viewModel.getDialBackgroundVisibility()
+            createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
 
-                if(it!!.isNotEmpty()) {
-                    viewModel.uiUpdated = true
-                }
-            }
+//                if(it!!.isNotEmpty()) {
+//                    viewModel.uiUpdated = true
+//                }
+//            }
         })
         viewModel.loadClocksLiveData().observe(this, Observer { list ->
             recyclerAdapter = ItemAdapter(this, list!!, viewModel)
@@ -103,13 +104,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 //            Toast.makeText(this, list!!.size.toString(), Toast.LENGTH_LONG).show()
         })
-        viewModel.reducedBitmaps.observe(this, Observer {
+        viewModel.bitmapsGenerated.observe(this, Observer {
             if(recyclerAdapter!= null) {
-                recyclerAdapter!!.notifyDataSetChanged()
+//                recyclerAdapter!!.notifyDataSetChanged()
             }
         })
         viewModel.currentFacePosition.observe(this, Observer {
             clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
+//            if(viewModel.faces.size != 0) {
+//                Toast.makeText(this, viewModel.faces!![viewModel.currentFacePosition.value!!].uid.toString(), Toast.LENGTH_LONG).show()
+//            }
+
         })
         viewModel.currentDialPosition.observe(this, Observer {
             clock_dial_imageview.setImageBitmap(viewModel.getSelectedDialImage())
@@ -117,6 +122,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.whiteBackgroundCheck.observe(this, Observer {
             clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
             clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
+        })
+        viewModel.faceCheck.observe(this, Observer {
+            if(it!!){
+                clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
+                clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
+            }else{
+                clock_face_imageview.setImageBitmap(Global.toBitmap(R.drawable.transparent_512))
+            }
         })
         viewModel.dialBackgroundCheck.observe(this, Observer {
             if(it!!){
@@ -134,6 +147,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 color_btn_layout.visibility = View.GONE
             }
 
+        })
+        viewModel.fetchedNetwork.observe(this, Observer {
+            if(it!!){
+                if(snackbar.isShown){
+                    snackbar.dismiss()
+                }
+            }else{
+                snackbar.show()
+            }
+        })
+        viewModel.message.observe(this, Observer {
+            if(!it.equals(Settings.NO_ERROR)){
+                MessageDialog(this, it!!).show()
+            }
         })
     }
 
@@ -173,6 +200,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar!!.title = resources.getString(R.string.app_name)
 
+        snackbar = Snackbar.make(fab, "Loading...", Snackbar.LENGTH_INDEFINITE)
+
 
         var contentMainViewModel = ContentMainViewModel(application)
         activityMainBinding.appBarMainInclude.contentMainInclude.contentMainVM = contentMainViewModel
@@ -182,6 +211,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         hand_color_btn.setOnClickListener(showHandColorClickListener)
         white_background_switch.setOnCheckedChangeListener(whiteCheckChangeListener)
         dial_background_switch.setOnCheckedChangeListener(dialCheckChangeListener)
+        face_switch.setOnCheckedChangeListener(faceCheckChangeListener)
         fab.setOnClickListener(fabClickListener)
     }
     override fun onBackPressed() {
@@ -242,6 +272,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             viewModel.dialBackgroundCheck.value = false
         }
     }
+    val faceCheckChangeListener = CompoundButton.OnCheckedChangeListener{
+        buttonView, isChecked ->
+        if(isChecked){
+            viewModel.prefManager!!.faceCheck = true
+            viewModel.faceCheck.value = true
+        }else{
+            viewModel.prefManager!!.faceCheck = false
+            viewModel.faceCheck.value = false
+        }
+    }
     val fabClickListener = View.OnClickListener{
         Snackbar.make(it, "Your widget has been created.", Snackbar.LENGTH_LONG)
                 .setAction("Widget", null).show()
@@ -253,7 +293,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun showHandColorDialog(){
-        var currentHandPosition = viewModel.currentHandPosition.value
         var dialog = HandColorDialog(this)
         dialog.show()
         dialog.hand_color_dialog_ok_button.setOnClickListener {

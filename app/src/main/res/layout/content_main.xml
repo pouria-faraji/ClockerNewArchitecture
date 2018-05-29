@@ -163,7 +163,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="start"
                 android:layout_weight="0.5">
                 <Switch
                     android:id="@+id/white_background_switch"
@@ -188,13 +188,38 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="start"
                 android:layout_weight="0.5">
                 <Switch
                     android:id="@+id/dial_background_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@{contentMainVM.dialBackgroundCheck}"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <com.blacksite.clocker.view.MuseoTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:paddingLeft="40dp"
+                android:text="Face"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_weight="0.5">
+                <Switch
+                    android:id="@+id/face_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{contentMainVM.faceCheck}"/>
             </RelativeLayout>
 
         </LinearLayout>

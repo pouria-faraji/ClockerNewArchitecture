@@ -6,8 +6,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.LightingColorFilter
-import android.graphics.drawable.BitmapDrawable
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.RemoteViews
 import com.blacksite.clockernewarchitecture.R
@@ -19,8 +17,8 @@ import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.repository.ClockRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import android.os.Bundle
-
-
+import android.widget.Toast
+import com.blacksite.clockernewarchitecture.application.Settings
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,29 +28,36 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var mode:MutableLiveData<Int> = MutableLiveData() // 1 -> Face, 2 -> Dial, 3 -> Hand
     var prefManager: PrefManager = PrefManager(application)
     var reducedBitmaps = MutableLiveData<HashMap<String, Bitmap>>()
+    var bitmapsGenerated = MutableLiveData<Boolean>()
+    var fetchedNetwork = MutableLiveData<Boolean>()
     var currentFacePosition = MutableLiveData<Int>()
     var currentDialPosition = MutableLiveData<Int>()
     var currentHandPosition = MutableLiveData<Int>()
     var whiteBackgroundCheck = MutableLiveData<Boolean>()
     var dialBackgroundCheck = MutableLiveData<Boolean>()
+    var faceCheck = MutableLiveData<Boolean>()
     var faces = ArrayList<Clock>()
     var dials = ArrayList<Clock>()
     var hands = ArrayList<Clock>()
     var generated = false
     var uiUpdated = false
     var colorPanelClicked = MutableLiveData<Boolean>()
+    var message = MutableLiveData<String>()
     init {
+        message.value = Settings.NO_ERROR
         currentFacePosition.value = prefManager!!.facePosition
         currentDialPosition.value = prefManager!!.dialPosition
         currentHandPosition.value = prefManager!!.handPosition
         mode.value = Clock.FACE
         colorPanelClicked.value = false
         clockRepository.getClocks(mode.value!!, clockLiveData)
-        clockRepository.getAllClocks(allClocksLiveData)
+        clockRepository.getAllClocks(allClocksLiveData, fetchedNetwork, message)
 //        allClocksLiveData = clockRepository.getAllClocks()
 //        clockRepository.getAllClocks(allClocksLiveData)
         whiteBackgroundCheck.value = prefManager!!.whiteBackgroundCheck
         dialBackgroundCheck.value = prefManager!!.dialBackgroundCheck
+        faceCheck.value = prefManager!!.faceCheck
+        bitmapsGenerated.value = false
     }
     fun loadClocksLiveData():MutableLiveData<List<Clock>>{
         return clockLiveData
@@ -119,15 +124,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return Color.parseColor(prefManager!!.dialColor)
     }
     fun generateReducedBitmaps(){
-        if(!generated) {
+//        if(!generated) {
             reducedBitmaps.value = HashMap<String, Bitmap>()
             reducedBitmaps.value!!.clear()
             var tempList = allClocksLiveData.value
             for (clock in tempList!!) {
                 reducedBitmaps.value!![clock.image!!] = reduceImageAsBitmap(clock.image!!)
             }
-            generated = true
-        }
+        bitmapsGenerated.value = (bitmapsGenerated.value!!).xor(true)
+//            generated = true
+//        }
     }
     fun reduceImageAsBitmap(fileName:String):Bitmap{
         var bitmap = Global.loadImageFromStorage(Global.absolutePath!!, fileName)
@@ -136,15 +142,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun filterComponents() {
+        faces.clear()
         for(clock in this.allClocksLiveData.value!!){
             if(clock.type == Clock.FACE){
-                faces.add(clock)
+                Global.addUnique(faces, clock)
+//                faces.add(clock)
             }
             if(clock.type == Clock.DIAL){
-                dials.add(clock)
+                Global.addUnique(dials, clock)
+//                dials.add(clock)
             }
             if(clock.type == Clock.HAND){
-                hands.add(clock)
+                Global.addUnique(hands, clock)
+//                hands.add(clock)
             }
         }
         prefManager.handsList = hands
@@ -164,11 +174,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun logToFireBase(mFirebaseAnalytics: FirebaseAnalytics) {
-        val bundle = Bundle()
-        bundle.putString("Face", faces[currentFacePosition.value!!].uid.toString())
-        bundle.putString("Dial", dials[currentDialPosition.value!!].uid.toString())
-        bundle.putString("Hand", hands[currentHandPosition.value!!].uid.toString())
-        mFirebaseAnalytics.logEvent("WIDGET_CREATED", bundle)
+        if(!faces.isEmpty() && !dials.isEmpty() && !hands.isEmpty()) {
+            val bundle = Bundle()
+            bundle.putString("Face", faces[currentFacePosition.value!!].uid.toString())
+            bundle.putString("Dial", dials[currentDialPosition.value!!].uid.toString())
+            bundle.putString("Hand", hands[currentHandPosition.value!!].uid.toString())
+            mFirebaseAnalytics.logEvent("WIDGET_CREATED", bundle)
+        }
     }
 
     companion object {

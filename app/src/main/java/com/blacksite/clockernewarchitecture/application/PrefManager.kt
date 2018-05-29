@@ -27,13 +27,13 @@ class PrefManager(internal var _context: Context) {
         }
 
     var facePosition: Int
-        get() = pref.getInt(FACE_POSITION, 1)
+        get() = pref.getInt(FACE_POSITION, 0)
         set(position){
             editor.putInt(FACE_POSITION, position)
             editor.commit()
         }
     var dialPosition: Int
-        get() = pref.getInt(DIAL_POSITION, 1)
+        get() = pref.getInt(DIAL_POSITION, 0)
         set(position){
             editor.putInt(DIAL_POSITION, position)
             editor.commit()
@@ -74,6 +74,12 @@ class PrefManager(internal var _context: Context) {
             editor.putBoolean(DIAL_BACKGROUND_CHECK, check)
             editor.commit()
         }
+    var faceCheck: Boolean
+        get() = pref.getBoolean(FACE_CHECK, true)
+        set(check){
+            editor.putBoolean(FACE_CHECK, check)
+            editor.commit()
+        }
     var cachedBitmap: String
         get() = pref.getString(CACHED_BITMAP, "null")
         set(cachedBitmap){
@@ -89,8 +95,8 @@ class PrefManager(internal var _context: Context) {
     var handsList: ArrayList<Clock>
         get() {
             var gson = Gson()
-            var json = pref.getString(HANDS_LIST, null)
-            if(json == null){
+            var json = pref.getString(HANDS_LIST, "[]")
+            if(json == "[]"){
                 var tempList:ArrayList<Clock> = arrayListOf(Clock(1, Settings.DEFAULT_HAND_NAME, Settings.DEFAULT_HAND_NAME, 1, Clock.HAND))
                 json = gson.toJson(tempList)
             }
@@ -123,6 +129,7 @@ class PrefManager(internal var _context: Context) {
         private const val DIAL_COLOR =  "dialColor"
         private const val WHITE_BACKGROUND_CHECK =  "whiteBackgroundCheck"
         private const val DIAL_BACKGROUND_CHECK =  "dialBackgroundCheck"
+        private const val FACE_CHECK =  "faceCheck"
         private const val CACHED_BITMAP =  "cachedBitmap"
         private const val COLOR_CODE =  "colorCode"
         private const val HANDS_LIST =  "handsList"

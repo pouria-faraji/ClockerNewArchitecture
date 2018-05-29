@@ -21,6 +21,7 @@ class ContentMainViewModel(application: Application) : AndroidViewModel(applicat
     var clockWallpaperHeight:Float
     var whiteBackgroundCheck:Boolean
     var dialBackgroundCheck:Boolean
+    var faceCheck:Boolean
     var prefManager = PrefManager(application)
     init {
         this.clockFaceImageviewWidth = Settings.CLOCK_FACE_IMAGEVIEW_WIDTH.toFloat()
@@ -32,6 +33,7 @@ class ContentMainViewModel(application: Application) : AndroidViewModel(applicat
         this.clockWallpaperHeight = Settings.CLOCK_WALLPAPER_HEIGHT.toFloat()
         this.whiteBackgroundCheck = prefManager.whiteBackgroundCheck
         this.dialBackgroundCheck = prefManager.dialBackgroundCheck
+        this.faceCheck = prefManager.faceCheck
     }
     fun getWallpaperAsBitmap():Bitmap{
         var wallpaperManager: WallpaperManager = WallpaperManager.getInstance(getApplication())
