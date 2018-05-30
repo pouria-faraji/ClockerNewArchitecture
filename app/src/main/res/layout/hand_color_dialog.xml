@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/hand_color_dialog_layout">
-    <com.blacksite.clocker.view.MuseoTextView
+    <com.blacksite.clockernewarchitecture.view.MuseoTextView
         android:id="@+id/hand_color_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,18 +71,18 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:padding="5dp">
-        <com.blacksite.clocker.view.MuseoTextView
+        <com.blacksite.clockernewarchitecture.view.MuseoTextView
             android:id="@+id/hand_color_dialog_ok_button"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:textColor="@color/colorPrimaryDarker"
             android:text="OK"/>
-        <com.blacksite.clocker.view.MuseoTextView
+        <com.blacksite.clockernewarchitecture.view.MuseoTextView
             android:id="@+id/hand_color_dialog_cancel_button"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="50dp"
             android:layout_toLeftOf="@+id/hand_color_dialog_ok_button"
             android:layout_marginRight="20dp"
             android:textColor="@color/colorPrimaryDarker"

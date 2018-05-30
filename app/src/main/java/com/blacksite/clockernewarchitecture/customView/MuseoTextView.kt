@@ -1,4 +1,4 @@
-package com.blacksite.clocker.view
+package com.blacksite.clockernewarchitecture.view
 
 import android.content.Context
 import android.graphics.Typeface

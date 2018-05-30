@@ -3,13 +3,8 @@ package com.blacksite.clockernewarchitecture.customView
 import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import android.view.Window
 import com.blacksite.clockernewarchitecture.R
-import com.blacksite.clockernewarchitecture.application.Global
-import com.blacksite.clockernewarchitecture.application.PrefManager
-import com.blacksite.clockernewarchitecture.application.Settings
-import kotlinx.android.synthetic.main.hand_color_dialog.*
 import kotlinx.android.synthetic.main.message_dialog.*
 
 /**

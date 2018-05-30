@@ -1,6 +1,5 @@
 package com.blacksite.clockernewarchitecture.widget
 
-import android.app.Application
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -9,7 +8,6 @@ import android.content.Intent
 import android.util.Log
 import android.app.PendingIntent
 import com.blacksite.clockernewarchitecture.R
-import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.PrefManager
 import com.blacksite.clockernewarchitecture.view.MainActivity

@@ -107,7 +107,7 @@
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/color_btn_background">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -124,7 +124,7 @@
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/color_btn_background">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -140,7 +140,7 @@
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/color_btn_background">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -154,7 +154,7 @@
             android:weightSum="1"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -179,7 +179,7 @@
             android:weightSum="1"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -204,7 +204,7 @@
             android:weightSum="1"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
-            <com.blacksite.clocker.view.MuseoTextView
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"

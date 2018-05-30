@@ -25,7 +25,6 @@ import android.view.View
 import android.widget.AnalogClock
 import android.widget.CompoundButton
 import android.widget.RemoteViews
-import android.widget.Toast
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
@@ -41,11 +40,8 @@ import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.hand_color_dialog.*
-import java.util.logging.Handler
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LifecycleOwner {

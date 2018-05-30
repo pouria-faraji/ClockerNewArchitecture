@@ -17,7 +17,6 @@ import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.repository.ClockRepository
 import com.google.firebase.analytics.FirebaseAnalytics
 import android.os.Bundle
-import android.widget.Toast
 import com.blacksite.clockernewarchitecture.application.Settings
 
 

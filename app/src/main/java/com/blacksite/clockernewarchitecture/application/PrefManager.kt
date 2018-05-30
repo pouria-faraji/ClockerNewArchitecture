@@ -2,7 +2,6 @@ package com.blacksite.clockernewarchitecture.application
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

@@ -5,7 +5,6 @@ import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -13,11 +12,6 @@ import android.view.WindowManager
 import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import java.io.*
-import java.nio.file.Files.exists
-import java.io.File.separator
-import android.os.Environment.getDataDirectory
-import android.os.Environment.getExternalStorageDirectory
-import android.util.Log
 
 
 class Global {

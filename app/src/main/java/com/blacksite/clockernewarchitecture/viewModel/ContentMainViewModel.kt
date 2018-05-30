@@ -5,11 +5,9 @@ import android.app.WallpaperManager
 import android.arch.lifecycle.AndroidViewModel
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
-import com.blacksite.clockernewarchitecture.R.id.clock_wallpaper
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.PrefManager
 import com.blacksite.clockernewarchitecture.application.Settings
-import kotlinx.android.synthetic.main.content_main.*
 
 class ContentMainViewModel(application: Application) : AndroidViewModel(application) {
     var clockFaceImageviewWidth:Float
