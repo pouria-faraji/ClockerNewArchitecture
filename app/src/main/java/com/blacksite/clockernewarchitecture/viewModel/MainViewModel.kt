@@ -138,11 +138,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun reduceImageAsBitmap(fileName:String):Bitmap{
         var bitmap = Global.loadImageFromStorage(Global.absolutePath!!, fileName)
 //        var bitmap = (ContextCompat.getDrawable(getApplication(), resource) as BitmapDrawable).bitmap
-        return Bitmap.createScaledBitmap(bitmap, bitmap.width/5, bitmap.height/5, true)
+        return Bitmap.createScaledBitmap(bitmap, bitmap.width/3, bitmap.height/3, true)
     }
 
     fun filterComponents() {
         faces.clear()
+        dials.clear()
+        hands.clear()
         for(clock in this.allClocksLiveData.value!!){
             if(clock.type == Clock.FACE){
                 Global.addUnique(faces, clock)

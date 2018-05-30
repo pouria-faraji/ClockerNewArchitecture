@@ -34,40 +34,43 @@ class ClockRepository {
     }
     fun getAllClocks(allClocksLiveData: MutableLiveData<List<Clock>>, fetchedNetwork: MutableLiveData<Boolean>, message: MutableLiveData<String>){
         allClocksLiveData.value = clockDao!!.getAll()
-        fetchedNetwork.value = false
         db.collection(Settings.COLLECTION_NAME)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (document in task.result) {
-                            var imageRef = storageRef.child(document.data[Settings.DB_COLUMN_IMAGE].toString())
-                            var localFile = File.createTempFile("images", "jpg")
-                            imageRef.getFile(localFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
-                                // Local temp file has been created
-                                var b = BitmapFactory.decodeStream(FileInputStream(localFile))
-                                Global.absolutePath = Global.saveToInternalStorage(b, document.data[Settings.DB_COLUMN_IMAGE].toString())
+                            if(!Global.existInDB(allClocksLiveData.value!!, (document.data[Settings.DB_COLUMN_UID]as Long).toInt())) {
+                                fetchedNetwork.value = false
+                                var imageRef = storageRef.child(document.data[Settings.DB_COLUMN_IMAGE].toString())
+                                var localFile = File.createTempFile("images", "jpg")
+                                imageRef.getFile(localFile).addOnSuccessListener(OnSuccessListener<FileDownloadTask.TaskSnapshot> {
+                                    // Local temp file has been created
+                                    var b = BitmapFactory.decodeStream(FileInputStream(localFile))
+                                    Global.absolutePath = Global.saveToInternalStorage(b, document.data[Settings.DB_COLUMN_IMAGE].toString())
 
-                                imageRef = storageRef.child(document.data[Settings.DB_COLUMN_IMAGEWHITE].toString())
-                                localFile = File.createTempFile("images", "jpg")
-                                imageRef.getFile(localFile).addOnSuccessListener {
-                                    b = BitmapFactory.decodeStream(FileInputStream(localFile))
-                                    Global.absolutePath = Global.saveToInternalStorage(b, document.data[Settings.DB_COLUMN_IMAGEWHITE].toString())
+                                    imageRef = storageRef.child(document.data[Settings.DB_COLUMN_IMAGEWHITE].toString())
+                                    localFile = File.createTempFile("images", "jpg")
+                                    imageRef.getFile(localFile).addOnSuccessListener {
+                                        b = BitmapFactory.decodeStream(FileInputStream(localFile))
+                                        Global.absolutePath = Global.saveToInternalStorage(b, document.data[Settings.DB_COLUMN_IMAGEWHITE].toString())
 
-                                    this.insert(Clock((document.data[Settings.DB_COLUMN_UID] as Long).toInt(),
-                                            document.data[Settings.DB_COLUMN_IMAGE].toString(),
-                                            document.data[Settings.DB_COLUMN_IMAGEWHITE].toString(),
-                                            if(document.data[Settings.DB_COLUMN_NUMBER] != null)(document.data[Settings.DB_COLUMN_NUMBER] as Long?)!!.toInt()else(0),
-                                            (document.data[Settings.DB_COLUMN_TYPE] as Long).toInt()), allClocksLiveData)
+                                        this.insert(Clock((document.data[Settings.DB_COLUMN_UID] as Long).toInt(),
+                                                document.data[Settings.DB_COLUMN_IMAGE].toString(),
+                                                document.data[Settings.DB_COLUMN_IMAGEWHITE].toString(),
+                                                if (document.data[Settings.DB_COLUMN_NUMBER] != null) (document.data[Settings.DB_COLUMN_NUMBER] as Long?)!!.toInt() else (0),
+                                                (document.data[Settings.DB_COLUMN_TYPE] as Long).toInt()), allClocksLiveData)
 
+                                        fetchedNetwork.value = true
+                                        Log.e("logger", "log")
+                                    }
+                                }).addOnFailureListener(OnFailureListener {
+                                    // Handle any errors
                                     fetchedNetwork.value = true
-                                    Log.e("logger", "log")
-                                }
-                            }).addOnFailureListener(OnFailureListener {
-                                // Handle any errors
-                                fetchedNetwork.value = true
-                                message.value = "This item is not available in your country."
-                                Log.d("logger", it.message)
-                            })
+                                    message.value = "This item is not available in your country."
+                                    Log.d("logger", it.message)
+                                    Log.d("logger", "Error-> " + document.data.toString())
+                                })
+                            }
 
                             Log.d("logger", document.id + " => " + document.data)
                         }

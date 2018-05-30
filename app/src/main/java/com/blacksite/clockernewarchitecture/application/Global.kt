@@ -134,6 +134,15 @@ class Global {
             }
         }
 
+        fun existInDB(clockList: List<Clock>, uid: Int): Boolean {
+            for(clock in clockList){
+                if(clock.uid == uid){
+                    return true
+                }
+            }
+            return false
+        }
+
 //        fun exportDB() {
 //            try {
 //
