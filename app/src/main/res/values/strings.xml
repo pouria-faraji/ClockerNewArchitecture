@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Clocker New Architecture</string>
+    <string name="app_name">Clocker</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_main">Clocker</string>
 

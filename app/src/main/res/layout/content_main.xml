@@ -77,21 +77,46 @@
         android:layout_marginBottom="@dimen/main_activity_margin"
         android:layout_marginEnd="@dimen/main_activity_margin"
         android:layout_marginStart="@dimen/main_activity_margin"
-        android:visibility="visible"/>
-
-    <!--<GridView-->
-    <!--android:id="@+id/main_grid"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:horizontalSpacing="@dimen/main_grid_spacing"-->
-    <!--android:verticalSpacing="@dimen/main_grid_spacing"-->
-    <!--android:listSelector="@drawable/item_background"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--android:layout_marginBottom="@dimen/main_activity_margin"-->
-    <!--android:layout_marginEnd="@dimen/main_activity_margin"-->
-    <!--android:layout_marginStart="@dimen/main_activity_margin"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/clock_main_layout"-->
-    <!--android:visibility="gone"/>-->
+        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/loading_gif"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/loading"
+            android:background="@drawable/loading"/>
+        <LinearLayout
+            android:id="@+id/error_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/death_512_w"
+                android:layout_marginBottom="10dp"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimaryDarker"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Something's Wrong!"/>
+        </LinearLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/loading_gif"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"/>-->
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/color_btn_layout"
         android:layout_width="match_parent"

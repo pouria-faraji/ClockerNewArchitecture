@@ -27,6 +27,7 @@ import android.widget.CompoundButton
 import android.widget.RemoteViews
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
+import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
 import com.blacksite.clockernewarchitecture.customView.HandColorDialog
@@ -36,6 +37,7 @@ import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
 import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
+import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
@@ -73,6 +75,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.allClocksLiveData.observe(this, Observer {
 //            if(!viewModel.uiUpdated) {
+            if(it!!.isNotEmpty()){
+                loading_layout.visibility = View.GONE
+                main_grid_recycler.visibility = View.VISIBLE
+            }
             viewModel.generateReducedBitmaps()
             viewModel.filterComponents()
             viewModel.refreshClocks()
@@ -148,6 +154,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if(it!!){
                 if(snackbar.isShown){
                     snackbar.dismiss()
+                    loading_gif.visibility = View.GONE
+                    error_image.visibility = View.VISIBLE
                 }
             }else{
                 snackbar.show()

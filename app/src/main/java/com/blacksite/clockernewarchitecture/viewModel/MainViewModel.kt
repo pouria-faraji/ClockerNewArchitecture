@@ -48,7 +48,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         currentDialPosition.value = prefManager!!.dialPosition
         currentHandPosition.value = prefManager!!.handPosition
         mode.value = Clock.FACE
-        colorPanelClicked.value = false
+//        colorPanelClicked.value = false
         clockRepository.getClocks(mode.value!!, clockLiveData)
         clockRepository.getAllClocks(allClocksLiveData, fetchedNetwork, message)
 //        allClocksLiveData = clockRepository.getAllClocks()

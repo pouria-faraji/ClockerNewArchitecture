@@ -66,7 +66,7 @@ class ClockRepository {
                                 }).addOnFailureListener(OnFailureListener {
                                     // Handle any errors
                                     fetchedNetwork.value = true
-                                    message.value = "This item is not available in your country."
+//                                    message.value = "This item is not available in your country."
                                     Log.d("logger", it.message)
                                     Log.d("logger", "Error-> " + document.data.toString())
                                 })

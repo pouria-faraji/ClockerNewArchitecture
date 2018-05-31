@@ -9,6 +9,9 @@ import android.util.Log
 import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
+import com.bumptech.glide.Glide
+
+
 
 class MainObserver:LifecycleObserver {
     var mainViewModel:MainViewModel
@@ -22,6 +25,7 @@ class MainObserver:LifecycleObserver {
         this.mainViewModel.generated = false
         var bitmap = (ContextCompat.getDrawable(App.appContext!!, R.drawable.splash) as BitmapDrawable).bitmap
         Global.absolutePath = Global.saveToInternalStorage(bitmap, "Initialize")
+
 //        val uri = Uri.parse("android.resource://"+"com.blacksite.clockernewarchitecture"+"/raw/"+Settings.DEFAULT_HAND_NAME)
 //        var bitmap = BitmapFactory.decodeStream(FileInputStream(File(uri.path)))
 //        Global.saveToInternalStorage(bitmap, Settings.DEFAULT_HAND_NAME)
