@@ -40,6 +40,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var generated = false
     var uiUpdated = false
     var colorPanelClicked = MutableLiveData<Boolean>()
+    var mainPanelClicked = MutableLiveData<Boolean>()
+    var premiumPanelClicked = MutableLiveData<Boolean>()
     var message = MutableLiveData<String>()
     init {
         message.value = Settings.NO_ERROR
@@ -69,7 +71,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 //        return result.toMutableList()
 //    }
     fun setMode(type:Int){
-        this.colorPanelClicked.value = false
+//        this.colorPanelClicked.value = false
+//        this.premiumPanelClicked.value = false
+        this.mainPanelClicked.value = true
         this.mode.value = type
     }
     fun refreshClocks() {

@@ -139,15 +139,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 clock_dial_imageview.visibility = View.GONE
             }
         })
-        viewModel.colorPanelClicked.observe(this, Observer {
+        viewModel.mainPanelClicked.observe(this, Observer {
             if(it!!){
-                main_grid_recycler.visibility = View.GONE
-                color_btn_layout.visibility = View.VISIBLE
-            }else{
                 main_grid_recycler.visibility = View.VISIBLE
                 color_btn_layout.visibility = View.GONE
+                premium_layout.visibility = View.GONE
             }
+//            else{
+//                main_grid_recycler.visibility = View.GONE
+//            }
+        })
+        viewModel.colorPanelClicked.observe(this, Observer {
+            if(it!!){
+                color_btn_layout.visibility = View.VISIBLE
+                main_grid_recycler.visibility = View.GONE
+                premium_layout.visibility = View.GONE
+            }
+//            else{
+//                main_grid_recycler.visibility = View.VISIBLE
+//                color_btn_layout.visibility = View.GONE
+//            }
 
+        })
+        viewModel.premiumPanelClicked.observe(this, Observer {
+            if(it!!){
+                premium_layout.visibility = View.VISIBLE
+                main_grid_recycler.visibility = View.GONE
+                color_btn_layout.visibility = View.GONE
+            }
+//            else{
+//                premium_layout.visibility = View.GONE
+//            }
         })
         viewModel.fetchedNetwork.observe(this, Observer {
             if(it!!){
@@ -239,6 +261,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_color -> {
                 viewModel.colorPanelClicked.value = true
+            }
+            R.id.nav_pro -> {
+                viewModel.premiumPanelClicked.value = true
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)

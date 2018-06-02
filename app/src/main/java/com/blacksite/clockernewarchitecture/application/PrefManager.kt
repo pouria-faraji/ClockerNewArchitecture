@@ -108,6 +108,12 @@ class PrefManager(internal var _context: Context) {
         editor.putString(HANDS_LIST, json)
         editor.commit()
     }
+    var faceLock: Boolean
+        get() = pref.getBoolean(FACE_LOCK, true)//true -> face items are locked
+        set(faceLock){
+            editor.putBoolean(FACE_LOCK, faceLock)
+            editor.commit()
+        }
     init {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         editor = pref.edit()
@@ -132,5 +138,6 @@ class PrefManager(internal var _context: Context) {
         private const val CACHED_BITMAP =  "cachedBitmap"
         private const val COLOR_CODE =  "colorCode"
         private const val HANDS_LIST =  "handsList"
+        private const val FACE_LOCK = "faceLock"
     }
 }
