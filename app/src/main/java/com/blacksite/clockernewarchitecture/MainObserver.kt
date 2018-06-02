@@ -9,7 +9,6 @@ import android.util.Log
 import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
-import com.bumptech.glide.Glide
 
 
 

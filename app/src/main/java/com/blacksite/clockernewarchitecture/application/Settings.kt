@@ -12,6 +12,7 @@ class Settings {
         const val DB_COLUMN_IMAGEWHITE = "imageWhite"
         const val DB_COLUMN_TYPE = "type"
         const val DB_COLUMN_NUMBER = "number"
+        const val DB_COLUMN_PREMIUM = "premium"
         const val DATABASE_VERSION = 1
         val CLOCK_FACE_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
         val CLOCK_FACE_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2

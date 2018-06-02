@@ -37,7 +37,6 @@ import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
 import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
-import com.bumptech.glide.Glide
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerClickListener
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder

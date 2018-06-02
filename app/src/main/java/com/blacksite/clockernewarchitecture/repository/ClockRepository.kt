@@ -58,7 +58,8 @@ class ClockRepository {
                                                 document.data[Settings.DB_COLUMN_IMAGE].toString(),
                                                 document.data[Settings.DB_COLUMN_IMAGEWHITE].toString(),
                                                 if (document.data[Settings.DB_COLUMN_NUMBER] != null) (document.data[Settings.DB_COLUMN_NUMBER] as Long?)!!.toInt() else (0),
-                                                (document.data[Settings.DB_COLUMN_TYPE] as Long).toInt()), allClocksLiveData)
+                                                (document.data[Settings.DB_COLUMN_TYPE] as Long).toInt(),
+                                                document.data[Settings.DB_COLUMN_PREMIUM] as Boolean), allClocksLiveData)
 
                                         fetchedNetwork.value = true
                                         Log.e("logger", "log")

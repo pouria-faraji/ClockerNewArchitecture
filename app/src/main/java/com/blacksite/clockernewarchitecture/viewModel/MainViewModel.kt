@@ -12,7 +12,6 @@ import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.PrefManager
-import com.blacksite.clockernewarchitecture.model.GridItem
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.repository.ClockRepository
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -62,13 +61,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return clockLiveData
     }
 
-    fun convertToGridItem(list:List<Clock>):MutableList<GridItem>{
-        var result = ArrayList<GridItem>()
-        for(item in list){
-            result.add(item.toGridItem())
-        }
-        return result.toMutableList()
-    }
+//    fun convertToGridItem(list:List<Clock>):MutableList<GridItem>{
+//        var result = ArrayList<GridItem>()
+//        for(item in list){
+//            result.add(item.toGridItem())
+//        }
+//        return result.toMutableList()
+//    }
     fun setMode(type:Int){
         this.colorPanelClicked.value = false
         this.mode.value = type
