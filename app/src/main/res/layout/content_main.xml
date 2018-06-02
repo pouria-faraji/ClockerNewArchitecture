@@ -132,11 +132,12 @@
             android:clickable="true"
             android:background="@drawable/color_btn_background">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_face_black_24dp"/>
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_face_white_24"/>
             <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
