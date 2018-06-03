@@ -238,6 +238,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dial_background_switch.setOnCheckedChangeListener(dialCheckChangeListener)
         face_switch.setOnCheckedChangeListener(faceCheckChangeListener)
         fab.setOnClickListener(fabClickListener)
+        unlock_face_btn.setOnClickListener(unlockFaceClickListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -270,6 +271,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    var unlockFaceClickListener = View.OnClickListener {
+        viewModel.prefManager.faceLock = false
+        MessageDialog(this, "All faces have been unlocked").show()
+    }
     var showHandColorClickListener = View.OnClickListener { view ->
         showHandColorDialog()
     }
