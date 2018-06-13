@@ -187,6 +187,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 MessageDialog(this, it!!).show()
             }
         })
+        viewModel.faceLock.observe(this, Observer {
+            unlock_face_btn.isClickable = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -273,6 +276,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var unlockFaceClickListener = View.OnClickListener {
         viewModel.prefManager.faceLock = false
+        viewModel.faceLock.value = false
         MessageDialog(this, "All faces have been unlocked").show()
     }
     var showHandColorClickListener = View.OnClickListener { view ->
@@ -316,13 +320,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     val fabClickListener = View.OnClickListener{
-        Snackbar.make(it, "Your widget has been created.", Snackbar.LENGTH_LONG)
-                .setAction("Widget", null).show()
-
         updateWidget()
-        val appWidgetManager = AppWidgetManager.getInstance(this)
-        appWidgetManager.updateAppWidget(thisWidget, remoteViews)
-
     }
 
     private fun showHandColorDialog(){
@@ -397,15 +395,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .show()
     }
     fun updateWidget(){
-        viewModel.logToFireBase(mFirebaseAnalytics!!)
         remoteViews = RemoteViews(this.packageName, R.layout.widget)
         thisWidget = ComponentName(this, MyWidgetProvider::class.java)
-        clock_canvas.destroyDrawingCache()
-        clock_canvas.buildDrawingCache()
-        if(clock_canvas.drawingCache != null) {
-            viewModel.prefManager!!.cachedBitmap = Global.saveToInternalStorage(clock_canvas.drawingCache)
+        if(!viewModel.premiumItem || !viewModel.prefManager.faceLock) {
+            viewModel.logToFireBase(mFirebaseAnalytics!!)
+            clock_canvas.destroyDrawingCache()
+            clock_canvas.buildDrawingCache()
+            if (clock_canvas.drawingCache != null) {
+                viewModel.prefManager!!.cachedBitmap = Global.saveToInternalStorage(clock_canvas.drawingCache)
+            }
+            remoteViews!!.setImageViewBitmap(R.id.clock_face_imageview_widget, clock_canvas.drawingCache)
+            MainViewModel.makeAllGoneWidget(this, viewModel.prefManager, remoteViews!!)
+
+            val appWidgetManager = AppWidgetManager.getInstance(this)
+            appWidgetManager.updateAppWidget(thisWidget, remoteViews)
+            Snackbar.make(fab, "Your widget has been created.", Snackbar.LENGTH_LONG)
+                    .setAction("Widget", null).show()
+        }else{
+            MessageDialog(this, "You have selected a premium item. You can have it all.").show()
+            viewModel.premiumPanelClicked.value = true
         }
-        remoteViews!!.setImageViewBitmap(R.id.clock_face_imageview_widget, clock_canvas.drawingCache)
-        MainViewModel.makeAllGoneWidget(this, viewModel.prefManager, remoteViews!!)
     }
 }

@@ -64,14 +64,19 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 //        holder.layout.layoutParams = params1
         if(hashMapSelected!![position] == true){
             holder.layout.background = ContextCompat.getDrawable(context!!, R.drawable.item_background_selected)
+            mainViewModel.premiumItem = item.premium
         }else{
             holder.layout.background = ContextCompat.getDrawable(context!!, R.drawable.item_background)
         }
 
-        if(!item.premium){
-            holder.lockLayout.visibility = View.GONE
+        if(mainViewModel.prefManager.faceLock) {
+            if (!item.premium) {
+                holder.lockLayout.visibility = View.GONE
+            } else {
+                holder.lockLayout.visibility = View.VISIBLE
+            }
         }else{
-            holder.lockLayout.visibility = View.VISIBLE
+            holder.lockLayout.visibility = View.GONE
         }
     }
     override fun getItemCount(): Int {

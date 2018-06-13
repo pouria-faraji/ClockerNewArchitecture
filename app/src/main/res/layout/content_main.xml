@@ -132,8 +132,8 @@
             android:clickable="true"
             android:background="@drawable/color_btn_background">
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
@@ -145,6 +145,75 @@
                 android:textColor="@android:color/white"
                 android:padding="20dp"
                 android:text="Unlock all faces"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/unlock_dial_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_schedule_white_24"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Unlock all dials"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/unlock_color_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_color_lens_white_24"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Unlock colors"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/unlock_all_features_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@drawable/color_btn_background">
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_lock_open_white_24"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp"
+                android:text="Unlock all features"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
