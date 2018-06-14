@@ -120,6 +120,12 @@ class PrefManager(internal var _context: Context) {
             editor.putBoolean(DIAL_LOCK, dialLock)
             editor.commit()
         }
+    var colorLock: Boolean
+        get() = pref.getBoolean(COLOR_LOCK, true)//true -> colors are locked at first
+        set(colorLock){
+            editor.putBoolean(COLOR_LOCK, colorLock)
+            editor.commit()
+        }
     init {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         editor = pref.edit()
@@ -146,5 +152,6 @@ class PrefManager(internal var _context: Context) {
         private const val HANDS_LIST =  "handsList"
         private const val FACE_LOCK = "faceLock"
         private const val DIAL_LOCK = "dialLock"
+        private const val COLOR_LOCK = "colorLock"
     }
 }

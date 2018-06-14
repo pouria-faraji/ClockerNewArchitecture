@@ -231,6 +231,14 @@
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/color_btn_background">
+            <ImageView
+                android:id="@+id/face_color_lock"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_lock_white_24"/>
             <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -247,6 +255,14 @@
             android:focusable="true"
             android:clickable="true"
             android:background="@drawable/color_btn_background">
+            <ImageView
+                android:id="@+id/dial_color_lock"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/baseline_lock_white_24"/>
             <com.blacksite.clockernewarchitecture.view.MuseoTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

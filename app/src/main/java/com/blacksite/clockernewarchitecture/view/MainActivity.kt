@@ -193,6 +193,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.dialLock.observe(this, Observer {
             unlock_dial_btn.isClickable = it!!
         })
+        viewModel.colorLock.observe(this, Observer {
+            face_color_lock.visibility = if(it!!)View.VISIBLE else View.GONE
+            dial_color_lock.visibility = if(it!!)View.VISIBLE else View.GONE
+
+            unlock_color_btn.isClickable = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -246,6 +252,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setOnClickListener(fabClickListener)
         unlock_face_btn.setOnClickListener(unlockFaceClickListener)
         unlock_dial_btn.setOnClickListener(unlockDialClickListener)
+        unlock_color_btn.setOnClickListener(unlockColorClickListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -287,6 +294,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.prefManager.dialLock = false
         viewModel.dialLock.value = false
         MessageDialog(this, "All dial have been unlocked").show()
+    }
+    var unlockColorClickListener = View.OnClickListener {
+        viewModel.prefManager.colorLock = false
+        viewModel.colorLock.value = false
+        MessageDialog(this, "Colors have been unlocked").show()
     }
     var showHandColorClickListener = View.OnClickListener { view ->
         showHandColorDialog()
@@ -344,64 +356,70 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun showDialColorDialog(){
-        ColorPickerDialogBuilder
-                .with(this)
-                .setTitle("Choose Color")
-                .initialColor(Color.parseColor(viewModel.prefManager!!.dialColor))
-                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
-                .setOnColorChangedListener { selectedColor ->
+        if(!viewModel.prefManager.colorLock) {
+            ColorPickerDialogBuilder
+                    .with(this)
+                    .setTitle("Choose Color")
+                    .initialColor(Color.parseColor(viewModel.prefManager!!.dialColor))
+                    .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                    .density(12)
+                    .setOnColorChangedListener { selectedColor ->
 
-                }
-                .setOnColorSelectedListener { selectedColor ->
+                    }
+                    .setOnColorSelectedListener { selectedColor ->
 
-                }
-                .setPositiveButton("Ok", ColorPickerClickListener(){
-                    dialog, selectedColor, allColors ->
-                    viewModel.prefManager!!.dialColor = "#" + Integer.toHexString(selectedColor)
+                    }
+                    .setPositiveButton("Ok", ColorPickerClickListener() { dialog, selectedColor, allColors ->
+                        viewModel.prefManager!!.dialColor = "#" + Integer.toHexString(selectedColor)
 //                    prefManager!!.dialColorDialog = "#" + Integer.toHexString(selectedColor)
 //                    clock_face_imageview.colorFilter = LightingColorFilter(Color.WHITE, Color.parseColor("#" + Integer.toHexString(selectedColor)))
-                    clock_dial_imageview.setColorFilter(viewModel.getSelectedDialColor(), PorterDuff.Mode.MULTIPLY)
+                        clock_dial_imageview.setColorFilter(viewModel.getSelectedDialColor(), PorterDuff.Mode.MULTIPLY)
 
-                })
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener(){
-                    dialog, which ->
+                    })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener() { dialog, which ->
 
-                })
-                .showAlphaSlider(false)
-                .showColorEdit(true)
-                .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
-                .build()
-                .show()
+                    })
+                    .showAlphaSlider(false)
+                    .showColorEdit(true)
+                    .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
+                    .build()
+                    .show()
+        }else{
+            MessageDialog(this, "Colors are premium features. You can unlock them here.").show()
+            viewModel.premiumPanelClicked.value = true
+        }
     }
     fun showFaceColorDialog(){
-        ColorPickerDialogBuilder
-                .with(this)
-                .setTitle("Choose Color")
-                .initialColor(Color.parseColor(viewModel.prefManager!!.faceColorDialog))
-                .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
-                .density(12)
-                .setOnColorChangedListener { selectedColor ->
+        if(!viewModel.prefManager.colorLock) {
+            ColorPickerDialogBuilder
+                    .with(this)
+                    .setTitle("Choose Color")
+                    .initialColor(Color.parseColor(viewModel.prefManager!!.faceColorDialog))
+                    .wheelType(ColorPickerView.WHEEL_TYPE.CIRCLE)
+                    .density(12)
+                    .setOnColorChangedListener { selectedColor ->
 
-                }
-                .setOnColorSelectedListener { selectedColor ->
+                    }
+                    .setOnColorSelectedListener { selectedColor ->
 
-                }
-                .setPositiveButton("Ok", ColorPickerClickListener(){
-                    dialog, selectedColor, allColors ->
-                    viewModel.prefManager!!.faceColor = "#" + Integer.toHexString(selectedColor)
-                    viewModel.prefManager!!.faceColorDialog = "#" + Integer.toHexString(selectedColor)
-                    clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
-                })
-                .setNegativeButton("Cancel", DialogInterface.OnClickListener(){
-                    dialog, which ->
+                    }
+                    .setPositiveButton("Ok", ColorPickerClickListener() { dialog, selectedColor, allColors ->
+                        viewModel.prefManager!!.faceColor = "#" + Integer.toHexString(selectedColor)
+                        viewModel.prefManager!!.faceColorDialog = "#" + Integer.toHexString(selectedColor)
+                        clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
+                    })
+                    .setNegativeButton("Cancel", DialogInterface.OnClickListener() { dialog, which ->
 
-                })
-                .showAlphaSlider(false)
-                .showColorEdit(true)
-                .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
-                .build()
-                .show()
+                    })
+                    .showAlphaSlider(false)
+                    .showColorEdit(true)
+                    .setColorEditTextColor(ContextCompat.getColor(this, android.R.color.holo_blue_bright))
+                    .build()
+                    .show()
+        }else{
+            MessageDialog(this, "Colors are premium features. You can unlock them here.").show()
+            viewModel.premiumPanelClicked.value = true
+        }
     }
     fun updateWidget(){
         remoteViews = RemoteViews(this.packageName, R.layout.widget)
