@@ -64,20 +64,34 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 //        holder.layout.layoutParams = params1
         if(hashMapSelected!![position] == true){
             holder.layout.background = ContextCompat.getDrawable(context!!, R.drawable.item_background_selected)
-            mainViewModel.premiumItem = item.premium
+            when(item.type){
+                Clock.FACE -> mainViewModel.premiumFace = item.premium
+                Clock.DIAL -> mainViewModel.premiumDial = item.premium
+            }
         }else{
             holder.layout.background = ContextCompat.getDrawable(context!!, R.drawable.item_background)
         }
 
-        if(mainViewModel.prefManager.faceLock) {
-            if (!item.premium) {
-                holder.lockLayout.visibility = View.GONE
-            } else {
-                holder.lockLayout.visibility = View.VISIBLE
-            }
-        }else{
+        if(!item.premium || (!mainViewModel.prefManager.faceLock && item.type == Clock.FACE) || (!mainViewModel.prefManager.dialLock && item.type == Clock.DIAL)){
             holder.lockLayout.visibility = View.GONE
+        }else{
+            holder.lockLayout.visibility = View.VISIBLE
         }
+//        if(mainViewModel.prefManager.faceLock && item.type == Clock.FACE) {
+//            if (!item.premium) {
+//                holder.lockLayout.visibility = View.GONE
+//            } else {
+//                holder.lockLayout.visibility = View.VISIBLE
+//            }
+//        }else if(mainViewModel.prefManager.dialLock && item.type == Clock.DIAL){
+//            if (!item.premium) {
+//                holder.lockLayout.visibility = View.GONE
+//            } else {
+//                holder.lockLayout.visibility = View.VISIBLE
+//            }
+//        }else{
+//            holder.lockLayout.visibility = View.GONE
+//        }
     }
     override fun getItemCount(): Int {
         return itemsList!!.size

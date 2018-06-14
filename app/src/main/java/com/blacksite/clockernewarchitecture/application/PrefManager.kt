@@ -109,9 +109,15 @@ class PrefManager(internal var _context: Context) {
         editor.commit()
     }
     var faceLock: Boolean
-        get() = pref.getBoolean(FACE_LOCK, true)//true -> face items are locked
+        get() = pref.getBoolean(FACE_LOCK, true)//true -> face items are locked at first
         set(faceLock){
             editor.putBoolean(FACE_LOCK, faceLock)
+            editor.commit()
+        }
+    var dialLock: Boolean
+        get() = pref.getBoolean(DIAL_LOCK, true)//true -> dial items are locked at first
+        set(dialLock){
+            editor.putBoolean(DIAL_LOCK, dialLock)
             editor.commit()
         }
     init {
@@ -139,5 +145,6 @@ class PrefManager(internal var _context: Context) {
         private const val COLOR_CODE =  "colorCode"
         private const val HANDS_LIST =  "handsList"
         private const val FACE_LOCK = "faceLock"
+        private const val DIAL_LOCK = "dialLock"
     }
 }

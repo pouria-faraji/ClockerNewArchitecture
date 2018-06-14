@@ -190,6 +190,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.faceLock.observe(this, Observer {
             unlock_face_btn.isClickable = it!!
         })
+        viewModel.dialLock.observe(this, Observer {
+            unlock_dial_btn.isClickable = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -242,6 +245,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         face_switch.setOnCheckedChangeListener(faceCheckChangeListener)
         fab.setOnClickListener(fabClickListener)
         unlock_face_btn.setOnClickListener(unlockFaceClickListener)
+        unlock_dial_btn.setOnClickListener(unlockDialClickListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -278,6 +282,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.prefManager.faceLock = false
         viewModel.faceLock.value = false
         MessageDialog(this, "All faces have been unlocked").show()
+    }
+    var unlockDialClickListener = View.OnClickListener {
+        viewModel.prefManager.dialLock = false
+        viewModel.dialLock.value = false
+        MessageDialog(this, "All dial have been unlocked").show()
     }
     var showHandColorClickListener = View.OnClickListener { view ->
         showHandColorDialog()
@@ -397,7 +406,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun updateWidget(){
         remoteViews = RemoteViews(this.packageName, R.layout.widget)
         thisWidget = ComponentName(this, MyWidgetProvider::class.java)
-        if(!viewModel.premiumItem || !viewModel.prefManager.faceLock) {
+        if((!viewModel.premiumFace || !viewModel.prefManager.faceLock) && (!viewModel.prefManager.dialLock || !viewModel.premiumDial)) {
             viewModel.logToFireBase(mFirebaseAnalytics!!)
             clock_canvas.destroyDrawingCache()
             clock_canvas.buildDrawingCache()

@@ -44,7 +44,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var premiumPanelClicked = MutableLiveData<Boolean>()
     var message = MutableLiveData<String>()
     var faceLock = MutableLiveData<Boolean>()
-    var premiumItem = false
+    var dialLock = MutableLiveData<Boolean>()
+    var premiumFace = false
+    var premiumDial = false
     init {
         message.value = Settings.NO_ERROR
         currentFacePosition.value = prefManager!!.facePosition
@@ -61,6 +63,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         faceCheck.value = prefManager!!.faceCheck
         bitmapsGenerated.value = false
         faceLock.value = prefManager.faceLock
+        dialLock.value = prefManager.dialLock
     }
     fun loadClocksLiveData():MutableLiveData<List<Clock>>{
         return clockLiveData
