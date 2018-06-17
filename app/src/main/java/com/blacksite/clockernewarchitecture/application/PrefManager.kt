@@ -126,6 +126,12 @@ class PrefManager(internal var _context: Context) {
             editor.putBoolean(COLOR_LOCK, colorLock)
             editor.commit()
         }
+    var featureLock: Boolean
+        get() = pref.getBoolean(FEATURE_LOCK, true)//true -> features are locked at first
+        set(featureLock){
+            editor.putBoolean(FEATURE_LOCK, featureLock)
+            editor.commit()
+        }
     init {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         editor = pref.edit()
@@ -153,5 +159,6 @@ class PrefManager(internal var _context: Context) {
         private const val FACE_LOCK = "faceLock"
         private const val DIAL_LOCK = "dialLock"
         private const val COLOR_LOCK = "colorLock"
+        private const val FEATURE_LOCK = "featureLock"
     }
 }

@@ -46,6 +46,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var faceLock = MutableLiveData<Boolean>()
     var dialLock = MutableLiveData<Boolean>()
     var colorLock = MutableLiveData<Boolean>()
+    var featureLock = MutableLiveData<Boolean>()
     var premiumFace = false
     var premiumDial = false
     init {
@@ -66,6 +67,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         faceLock.value = prefManager.faceLock
         dialLock.value = prefManager.dialLock
         colorLock.value = prefManager.colorLock
+        featureLock.value = prefManager.featureLock
     }
     fun loadClocksLiveData():MutableLiveData<List<Clock>>{
         return clockLiveData

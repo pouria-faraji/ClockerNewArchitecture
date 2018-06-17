@@ -199,6 +199,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             unlock_color_btn.isClickable = it!!
         })
+        viewModel.featureLock.observe(this, Observer {
+            unlock_all_features_btn.isClickable = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -253,6 +256,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         unlock_face_btn.setOnClickListener(unlockFaceClickListener)
         unlock_dial_btn.setOnClickListener(unlockDialClickListener)
         unlock_color_btn.setOnClickListener(unlockColorClickListener)
+        unlock_all_features_btn.setOnClickListener(unlockFeaturesClickListener)
     }
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -299,6 +303,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.prefManager.colorLock = false
         viewModel.colorLock.value = false
         MessageDialog(this, "Colors have been unlocked").show()
+    }
+    var unlockFeaturesClickListener = View.OnClickListener {
+        viewModel.prefManager.colorLock = false
+        viewModel.prefManager.faceLock = false
+        viewModel.prefManager.dialLock = false
+        viewModel.colorLock.value = false
+        viewModel.faceLock.value = false
+        viewModel.dialLock.value = false
+        viewModel.featureLock.value = false
+        MessageDialog(this, "All features have been unlocked").show()
     }
     var showHandColorClickListener = View.OnClickListener { view ->
         showHandColorDialog()
