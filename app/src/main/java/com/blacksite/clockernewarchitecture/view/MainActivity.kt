@@ -25,6 +25,8 @@ import android.view.View
 import android.widget.AnalogClock
 import android.widget.CompoundButton
 import android.widget.RemoteViews
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
 import com.blacksite.clockernewarchitecture.MainObserver
 import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.App
@@ -34,6 +36,7 @@ import com.blacksite.clockernewarchitecture.customView.HandColorDialog
 import com.blacksite.clockernewarchitecture.customView.MessageDialog
 import com.blacksite.clockernewarchitecture.databinding.ActivityMainBinding
 import com.blacksite.clockernewarchitecture.model.database.Clock
+import com.blacksite.clockernewarchitecture.viewModel.BillingViewModel
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
 import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
@@ -48,6 +51,7 @@ import kotlinx.android.synthetic.main.hand_color_dialog.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LifecycleOwner {
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
+    private lateinit var billingViewModel: BillingViewModel
     var recyclerAdapter: ItemAdapter? = null
     var remoteViews: RemoteViews? = null
     var thisWidget: ComponentName? = null
@@ -62,6 +66,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         prepareRecylcer()
         prepareObservers()
     }
+
+
 
     private fun prepareRecylcer(){
         main_grid_recycler.setHasFixedSize(true)
@@ -236,6 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         activityMainBinding.setLifecycleOwner(this)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        billingViewModel = ViewModelProviders.of(this).get(BillingViewModel::class.java)
         lifecycle.addObserver(MainObserver(viewModel))
         setSupportActionBar(toolbar)
         supportActionBar!!.title = resources.getString(R.string.app_name)
