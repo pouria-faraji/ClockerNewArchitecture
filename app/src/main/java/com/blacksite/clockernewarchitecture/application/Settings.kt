@@ -14,6 +14,8 @@ class Settings {
         const val DB_COLUMN_NUMBER = "number"
         const val DB_COLUMN_PREMIUM = "premium"
         const val DATABASE_VERSION = 1
+        const val UNLOCK_FACE_SKU = "unlock_face"
+        const val TEST_PURCHASED_SKU = "android.test.purchased"
         val CLOCK_FACE_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
         val CLOCK_FACE_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2
         val CLOCK_FACE_IMAGEVIEW_PADDING = CLOCK_FACE_IMAGEVIEW_WIDTH/5

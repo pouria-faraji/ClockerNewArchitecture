@@ -62,7 +62,7 @@ class ClockRepository {
                                                 document.data[Settings.DB_COLUMN_PREMIUM] as Boolean), allClocksLiveData)
 
                                         fetchedNetwork.value = true
-                                        Log.e("logger", "log")
+//                                        Log.e("logger", "log")
                                     }
                                 }).addOnFailureListener(OnFailureListener {
                                     // Handle any errors

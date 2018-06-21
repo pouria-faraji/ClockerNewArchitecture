@@ -297,9 +297,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     var unlockFaceClickListener = View.OnClickListener {
-        viewModel.prefManager.faceLock = false
-        viewModel.faceLock.value = false
-        MessageDialog(this, "All faces have been unlocked").show()
+//        viewModel.prefManager.faceLock = false
+//        viewModel.faceLock.value = false
+//        MessageDialog(this, "All faces have been unlocked").show()
+        billingViewModel.purchase(this, Settings.UNLOCK_FACE_SKU)
     }
     var unlockDialClickListener = View.OnClickListener {
         viewModel.prefManager.dialLock = false
