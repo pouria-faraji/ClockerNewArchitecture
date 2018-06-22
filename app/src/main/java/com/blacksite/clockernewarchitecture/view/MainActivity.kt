@@ -37,6 +37,7 @@ import com.blacksite.clockernewarchitecture.customView.MessageDialog
 import com.blacksite.clockernewarchitecture.databinding.ActivityMainBinding
 import com.blacksite.clockernewarchitecture.model.database.Clock
 import com.blacksite.clockernewarchitecture.viewModel.BillingViewModel
+import com.blacksite.clockernewarchitecture.viewModel.BillingViewModelFactory
 import com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel
 import com.blacksite.clockernewarchitecture.viewModel.MainViewModel
 import com.blacksite.clockernewarchitecture.widget.MyWidgetProvider
@@ -169,6 +170,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.premiumPanelClicked.observe(this, Observer {
             if(it!!){
+                activityMainBinding.navView.setCheckedItem(R.id.nav_pro)
                 premium_layout.visibility = View.VISIBLE
                 main_grid_recycler.visibility = View.GONE
                 color_btn_layout.visibility = View.GONE
@@ -208,6 +210,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         viewModel.featureLock.observe(this, Observer {
             unlock_all_features_btn.isClickable = it!!
         })
+
+        billingViewModel.unlockFacePrice.observe(this, Observer {
+            unlock_face_price.text = it!!
+        })
+        billingViewModel.unlockDialPrice.observe(this, Observer {
+            unlock_dial_price.text = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -233,6 +242,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activityMainBinding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         activityMainBinding.navView.setNavigationItemSelectedListener(this)
+        activityMainBinding.navView.setCheckedItem(R.id.nav_face)
 
     }
     private fun setup(){
@@ -242,7 +252,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         activityMainBinding.setLifecycleOwner(this)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        billingViewModel = ViewModelProviders.of(this).get(BillingViewModel::class.java)
+        billingViewModel = ViewModelProviders.of(this, BillingViewModelFactory(application, this, viewModel)).get(BillingViewModel::class.java)
         lifecycle.addObserver(MainObserver(viewModel))
         setSupportActionBar(toolbar)
         supportActionBar!!.title = resources.getString(R.string.app_name)
@@ -303,9 +313,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         billingViewModel.purchase(this, Settings.UNLOCK_FACE_SKU)
     }
     var unlockDialClickListener = View.OnClickListener {
-        viewModel.prefManager.dialLock = false
-        viewModel.dialLock.value = false
-        MessageDialog(this, "All dial have been unlocked").show()
+//        viewModel.prefManager.dialLock = false
+//        viewModel.dialLock.value = false
+//        MessageDialog(this, "All dial have been unlocked").show()
+        billingViewModel.purchase(this, Settings.UNLOCK_DIAL_SKU)
+
     }
     var unlockColorClickListener = View.OnClickListener {
         viewModel.prefManager.colorLock = false
