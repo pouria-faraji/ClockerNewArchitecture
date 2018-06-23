@@ -207,6 +207,14 @@
                 android:textColor="@android:color/white"
                 android:padding="20dp"
                 android:text="Unlock colors"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:id="@+id/unlock_color_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp" />
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/unlock_all_features_btn"
@@ -230,6 +238,14 @@
                 android:textColor="@android:color/white"
                 android:padding="20dp"
                 android:text="Unlock all features"/>
+            <com.blacksite.clockernewarchitecture.view.MuseoTextView
+                android:id="@+id/unlock_features_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:padding="20dp" />
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout

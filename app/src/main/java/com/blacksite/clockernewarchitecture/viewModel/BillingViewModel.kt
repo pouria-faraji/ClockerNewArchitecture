@@ -6,6 +6,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.android.billingclient.api.*
+import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
@@ -18,6 +19,8 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
     var mActivity = activity
     var unlockFacePrice = MutableLiveData<String>()
     var unlockDialPrice = MutableLiveData<String>()
+    var unlockColorPrice = MutableLiveData<String>()
+    var unlockFeaturesPrice = MutableLiveData<String>()
 
     init {
         prepareBilling()
@@ -32,6 +35,15 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
                         if (responseCode == BillingClient.BillingResponse.OK) {
                             mainViewModel.prefManager.faceLock = true
                             mainViewModel.faceLock.value = true
+
+                            mainViewModel.prefManager.dialLock = true
+                            mainViewModel.dialLock.value = true
+
+                            mainViewModel.prefManager.colorLock = true
+                            mainViewModel.colorLock.value = true
+
+                            mainViewModel.featureLock.value = true
+
                         }
                     })
                 }
@@ -50,6 +62,8 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
                     val skuList = ArrayList<String>()
                     skuList.add(Settings.UNLOCK_FACE_SKU)
                     skuList.add(Settings.UNLOCK_DIAL_SKU)
+                    skuList.add(Settings.UNLOCK_COLOR_SKU)
+                    skuList.add(Settings.UNLOCK_FEATURES_SKU)
                     val params = SkuDetailsParams.newBuilder()
                     params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
                     billingClient.querySkuDetailsAsync(params.build(), { responseCode, skuDetailsList ->
@@ -61,10 +75,14 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
                                 val sku = skuDetails.sku
                                 val price = skuDetails.price
                                 if (Settings.UNLOCK_FACE_SKU == sku) {
-                                    Log.e("logger", "Test price is: $price")
+                                    Log.e("logger", "Face price is: $price")
                                     unlockFacePrice.value = price
                                 }else if (Settings.UNLOCK_DIAL_SKU == sku) {
                                     unlockDialPrice.value = price
+                                }else if (Settings.UNLOCK_COLOR_SKU == sku) {
+                                    unlockColorPrice.value = price
+                                }else if (Settings.UNLOCK_FEATURES_SKU == sku) {
+                                    unlockFeaturesPrice.value = price
                                 }
                             }
                         }
@@ -105,12 +123,35 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             Log.e("logger", "Unlock Face")
             mainViewModel.prefManager.faceLock = false
             mainViewModel.faceLock.value = false
-            MessageDialog(mActivity, "All faces have been unlocked").show()
+            if(mActivity != null) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.face_unlocked_message)).show()
+            }
         }
         else if(purchase.sku == Settings.UNLOCK_DIAL_SKU){
             mainViewModel.prefManager.dialLock = false
             mainViewModel.dialLock.value = false
-            MessageDialog(mActivity, "All dials have been unlocked").show()
+            if(mActivity != null) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.dial_unlocked_message)).show()
+            }
+        }
+        else if(purchase.sku == Settings.UNLOCK_COLOR_SKU){
+            mainViewModel.prefManager.colorLock = false
+            mainViewModel.colorLock.value = false
+            if(mActivity != null) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.color_unlocked_message)).show()
+            }
+        }
+        else if(purchase.sku == Settings.UNLOCK_FEATURES_SKU){
+            mainViewModel.prefManager.faceLock = false
+            mainViewModel.faceLock.value = false
+            mainViewModel.prefManager.dialLock = false
+            mainViewModel.dialLock.value = false
+            mainViewModel.prefManager.colorLock = false
+            mainViewModel.colorLock.value = false
+            mainViewModel.featureLock.value = false
+            if(mActivity != null) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.features_unlocked_message)).show()
+            }
         }
     }
 }

@@ -11,4 +11,14 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
+
+    <string name="face_unlocked_message">You can now choose all faces.</string>
+    <string name="dial_unlocked_message">You can now choose all dials</string>
+    <string name="color_unlocked_message">You can now choose your desired color for faces and dials.</string>
+    <string name="features_unlocked_message">All features of the App including all faces, dials, and colors have been unlocked</string>
+    <string name="color_locked_warning">You can unlock colors for faces and dials in premium section.</string>
+    <string name="widget_created">Your widget has been created.</string>
+    <string name="premium_warning">You can unlock all faces, dials, and colors in premium section.</string>
+    <string name="loading">Loading...</string>
+
 </resources>

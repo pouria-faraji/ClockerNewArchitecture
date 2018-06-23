@@ -17,6 +17,7 @@ class Settings {
         const val UNLOCK_FACE_SKU = "unlock_face"
         const val UNLOCK_DIAL_SKU = "unlock_dial"
         const val UNLOCK_COLOR_SKU = "unlock_color"
+        const val UNLOCK_FEATURES_SKU = "unlock_features"
         const val TEST_PURCHASED_SKU = "android.test.purchased"
         val CLOCK_FACE_IMAGEVIEW_WIDTH = Global.getAppWidth()/2
         val CLOCK_FACE_IMAGEVIEW_HEIGHT = Global.getAppWidth()/2

@@ -217,6 +217,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         billingViewModel.unlockDialPrice.observe(this, Observer {
             unlock_dial_price.text = it!!
         })
+        billingViewModel.unlockColorPrice.observe(this, Observer {
+            unlock_color_price.text = it!!
+        })
+        billingViewModel.unlockFeaturesPrice.observe(this, Observer {
+            unlock_features_price.text = it!!
+        })
     }
 
     private fun createHand(value: Int?, colorCode: Int) {
@@ -257,7 +263,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
         supportActionBar!!.title = resources.getString(R.string.app_name)
 
-        snackbar = Snackbar.make(fab, "Loading...", Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(fab, this.resources.getString(R.string.loading), Snackbar.LENGTH_INDEFINITE)
 
 
         var contentMainViewModel = ContentMainViewModel(application)
@@ -320,19 +326,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
     var unlockColorClickListener = View.OnClickListener {
-        viewModel.prefManager.colorLock = false
-        viewModel.colorLock.value = false
-        MessageDialog(this, "Colors have been unlocked").show()
+//        viewModel.prefManager.colorLock = false
+//        viewModel.colorLock.value = false
+//        MessageDialog(this, "Colors have been unlocked").show()
+        billingViewModel.purchase(this, Settings.UNLOCK_COLOR_SKU)
     }
     var unlockFeaturesClickListener = View.OnClickListener {
-        viewModel.prefManager.colorLock = false
-        viewModel.prefManager.faceLock = false
-        viewModel.prefManager.dialLock = false
-        viewModel.colorLock.value = false
-        viewModel.faceLock.value = false
-        viewModel.dialLock.value = false
-        viewModel.featureLock.value = false
-        MessageDialog(this, "All features have been unlocked").show()
+//        viewModel.prefManager.colorLock = false
+//        viewModel.prefManager.faceLock = false
+//        viewModel.prefManager.dialLock = false
+//        viewModel.colorLock.value = false
+//        viewModel.faceLock.value = false
+//        viewModel.dialLock.value = false
+//        viewModel.featureLock.value = false
+//        MessageDialog(this, "All features have been unlocked").show()
+        billingViewModel.purchase(this, Settings.UNLOCK_FEATURES_SKU)
     }
     var showHandColorClickListener = View.OnClickListener { view ->
         showHandColorDialog()
@@ -419,7 +427,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .build()
                     .show()
         }else{
-            MessageDialog(this, "Colors are premium features. You can unlock them here.").show()
+            MessageDialog(this, this.resources.getString(R.string.color_locked_warning)).show()
             viewModel.premiumPanelClicked.value = true
         }
     }
@@ -451,7 +459,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .build()
                     .show()
         }else{
-            MessageDialog(this, "Colors are premium features. You can unlock them here.").show()
+            MessageDialog(this, this.resources.getString(R.string.color_locked_warning)).show()
             viewModel.premiumPanelClicked.value = true
         }
     }
@@ -470,10 +478,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val appWidgetManager = AppWidgetManager.getInstance(this)
             appWidgetManager.updateAppWidget(thisWidget, remoteViews)
-            Snackbar.make(fab, "Your widget has been created.", Snackbar.LENGTH_LONG)
+            Snackbar.make(fab, this.resources.getString(R.string.widget_created), Snackbar.LENGTH_LONG)
                     .setAction("Widget", null).show()
         }else{
-            MessageDialog(this, "You have selected a premium item. You can have it all.").show()
+            MessageDialog(this, this.resources.getString(R.string.premium_warning)).show()
             viewModel.premiumPanelClicked.value = true
         }
     }
