@@ -79,6 +79,12 @@ class PrefManager(internal var _context: Context) {
             editor.putBoolean(FACE_CHECK, check)
             editor.commit()
         }
+    var faceFilterCheck: Boolean
+        get() = pref.getBoolean(FACE_FILTER_CHECK, true)
+        set(check){
+            editor.putBoolean(FACE_FILTER_CHECK, check)
+            editor.commit()
+        }
     var cachedBitmap: String
         get() = pref.getString(CACHED_BITMAP, "null")
         set(cachedBitmap){
@@ -153,6 +159,7 @@ class PrefManager(internal var _context: Context) {
         private const val WHITE_BACKGROUND_CHECK =  "whiteBackgroundCheck"
         private const val DIAL_BACKGROUND_CHECK =  "dialBackgroundCheck"
         private const val FACE_CHECK =  "faceCheck"
+        private const val FACE_FILTER_CHECK =  "faceFilterCheck"
         private const val CACHED_BITMAP =  "cachedBitmap"
         private const val COLOR_CODE =  "colorCode"
         private const val HANDS_LIST =  "handsList"

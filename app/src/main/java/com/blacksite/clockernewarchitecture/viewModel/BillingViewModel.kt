@@ -123,21 +123,21 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             Log.e("logger", "Unlock Face")
             mainViewModel.prefManager.faceLock = false
             mainViewModel.faceLock.value = false
-            if(mActivity != null) {
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
                 MessageDialog(mActivity, mActivity.resources.getString(R.string.face_unlocked_message)).show()
             }
         }
         else if(purchase.sku == Settings.UNLOCK_DIAL_SKU){
             mainViewModel.prefManager.dialLock = false
             mainViewModel.dialLock.value = false
-            if(mActivity != null) {
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
                 MessageDialog(mActivity, mActivity.resources.getString(R.string.dial_unlocked_message)).show()
             }
         }
         else if(purchase.sku == Settings.UNLOCK_COLOR_SKU){
             mainViewModel.prefManager.colorLock = false
             mainViewModel.colorLock.value = false
-            if(mActivity != null) {
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
                 MessageDialog(mActivity, mActivity.resources.getString(R.string.color_unlocked_message)).show()
             }
         }
@@ -149,7 +149,7 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             mainViewModel.prefManager.colorLock = false
             mainViewModel.colorLock.value = false
             mainViewModel.featureLock.value = false
-            if(mActivity != null) {
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
                 MessageDialog(mActivity, mActivity.resources.getString(R.string.features_unlocked_message)).show()
             }
         }

@@ -39,5 +39,41 @@
         android:hand_hour="@drawable/hour_hand_1_green"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
+    <AnalogClock
+        android:id="@+id/hand_2_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dial="@drawable/transparent_512"
+        android:hand_minute="@drawable/minute_hand_2_grey"
+        android:hand_hour="@drawable/hour_hand_2_grey"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <AnalogClock
+        android:id="@+id/hand_2_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dial="@drawable/transparent_512"
+        android:hand_minute="@drawable/minute_hand_2_blue"
+        android:hand_hour="@drawable/hour_hand_2_blue"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <AnalogClock
+        android:id="@+id/hand_2_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dial="@drawable/transparent_512"
+        android:hand_minute="@drawable/minute_hand_2_red"
+        android:hand_hour="@drawable/hour_hand_2_red"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <AnalogClock
+        android:id="@+id/hand_2_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:dial="@drawable/transparent_512"
+        android:hand_minute="@drawable/minute_hand_2_green"
+        android:hand_hour="@drawable/hour_hand_2_green"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -124,6 +124,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //            }
 
         })
+        viewModel.currentHandPosition.observe(this, Observer {
+            createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
+        })
         viewModel.currentDialPosition.observe(this, Observer {
             clock_dial_imageview.setImageBitmap(viewModel.getSelectedDialImage())
         })
