@@ -34,6 +34,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var whiteBackgroundCheck = MutableLiveData<Boolean>()
     var dialBackgroundCheck = MutableLiveData<Boolean>()
     var faceCheck = MutableLiveData<Boolean>()
+    var faceFilterCheck = MutableLiveData<Boolean>()
     var faces = ArrayList<Clock>()
     var dials = ArrayList<Clock>()
     var hands = ArrayList<Clock>()
@@ -63,6 +64,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         whiteBackgroundCheck.value = prefManager!!.whiteBackgroundCheck
         dialBackgroundCheck.value = prefManager!!.dialBackgroundCheck
         faceCheck.value = prefManager!!.faceCheck
+        faceFilterCheck.value = prefManager!!.faceFilterCheck
         bitmapsGenerated.value = false
         faceLock.value = prefManager.faceLock
         dialLock.value = prefManager.dialLock

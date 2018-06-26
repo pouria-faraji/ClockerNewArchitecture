@@ -1,6 +1,10 @@
 package com.blacksite.clockernewarchitecture.adapter
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.graphics.drawable.RotateDrawable
+import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -35,6 +39,8 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         var imageView: ImageView = layout.findViewById(R.id.imgItem)
         var lockLayout: RelativeLayout = layout.findViewById(R.id.lockLayout)
         var lockImageView: ImageView = layout.findViewById(R.id.imgLock)
+        var premiumLockImageView: ImageView = layout.findViewById(R.id.premiumImgLock)
+        var premiumL: RelativeLayout = layout.findViewById(R.id.premiumL)
     }
     var onItemClick: (Int) -> Unit = {}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemAdapter.ViewHolder {
@@ -51,12 +57,31 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 //        holder.imageView.setImageResource(item.image!!)
         holder.imageView.setImageBitmap(if(mainViewModel.reducedBitmaps.value != null) (mainViewModel.reducedBitmaps.value!![item.image!!])else(Global.toBitmap(R.drawable.transparent_512)))
         var size = ((0.7) * Global.getAppWidth()/Settings.NUMBER_OF_ITEMS_EACH_ROW).toInt()
-        var lockLayoutSize = ((0.2)*Global.getAppWidth()/Settings.NUMBER_OF_ITEMS_EACH_ROW).toInt()
-        var lockImageSize = ((0.1)*Global.getAppWidth()/Settings.NUMBER_OF_ITEMS_EACH_ROW).toInt()
+        var lockLayoutSize = ((0.25)*Global.getAppWidth()/Settings.NUMBER_OF_ITEMS_EACH_ROW).toInt()
+        var lockImageSize = ((0.15)*Global.getAppWidth()/Settings.NUMBER_OF_ITEMS_EACH_ROW).toInt()
         holder.imageView.layoutParams.width = size
         holder.imageView.layoutParams.height = size
         holder.lockLayout.layoutParams.height = lockLayoutSize
         holder.lockImageView.layoutParams.height = lockImageSize
+        holder.premiumLockImageView.layoutParams.height = lockImageSize
+        holder.premiumLockImageView.layoutParams.width = lockImageSize
+        var premiumItemBackground: LayerDrawable = ContextCompat.getDrawable(context!!, R.drawable.premium_item_background)!!.mutate() as LayerDrawable
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            premiumItemBackground.setLayerHeight(0, (holder.imageView.layoutParams.width*(0.5)).toInt())
+            premiumItemBackground.setLayerInsetTop(0, (holder.imageView.layoutParams.width*(1.3)).toInt())
+            premiumItemBackground.setLayerInsetRight(0, holder.imageView.layoutParams.width * (-2))
+        }
+
+        holder.premiumL.layoutParams.width = (holder.imageView.layoutParams.width/1.0).toInt()
+        holder.premiumL.layoutParams.height = (holder.imageView.layoutParams.height/1.0).toInt()
+        holder.premiumL.background = premiumItemBackground
+
+        holder.premiumLockImageView.translationX = (holder.premiumL.layoutParams.width * 0.61).toFloat()
+        holder.premiumLockImageView.translationY = (holder.premiumL.layoutParams.height * 0.61).toFloat()
+
+
+
 //        val params1 = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Global.getAppWidth()/ Settings.NUMBER_OF_ITEMS_EACH_ROW)
         val params1 = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
         var margin = Global.dp_to_px(2)
@@ -73,9 +98,16 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
 
         if(!item.premium || (!mainViewModel.prefManager.faceLock && item.type == Clock.FACE) || (!mainViewModel.prefManager.dialLock && item.type == Clock.DIAL)){
+            holder.premiumL.visibility = View.GONE
             holder.lockLayout.visibility = View.GONE
         }else{
-            holder.lockLayout.visibility = View.VISIBLE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.premiumL.visibility = View.VISIBLE
+                holder.lockLayout.visibility = View.GONE
+            }else{
+                holder.lockLayout.visibility = View.VISIBLE
+                holder.premiumL.visibility = View.GONE
+            }
         }
 //        if(mainViewModel.prefManager.faceLock && item.type == Clock.FACE) {
 //            if (!item.premium) {

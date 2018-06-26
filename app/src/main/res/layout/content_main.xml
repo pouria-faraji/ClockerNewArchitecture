@@ -422,7 +422,6 @@
                     android:id="@+id/face_filter_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    ojhjhjk
                     android:checked="@{contentMainVM.faceFilterCheck}"/>
             </RelativeLayout>
         </LinearLayout>

@@ -31,5 +31,7 @@ class Settings {
         const val COLOR_CODE_BLUE = 2
         const val COLOR_CODE_RED = 3
         const val COLOR_CODE_GREEN = 4
+        val TRANSLATION_UPPER = Global.dp_to_px(10)
+        val TRANSLATION_LOWER = Global.dp_to_px(1)
     }
 }

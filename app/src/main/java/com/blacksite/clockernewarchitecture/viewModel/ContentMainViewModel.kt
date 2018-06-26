@@ -33,7 +33,7 @@ class ContentMainViewModel(application: Application) : AndroidViewModel(applicat
         this.whiteBackgroundCheck = prefManager.whiteBackgroundCheck
         this.dialBackgroundCheck = prefManager.dialBackgroundCheck
         this.faceCheck = prefManager.faceCheck
-        this.faceFilterCheck = prefManager.faceCheck
+        this.faceFilterCheck = prefManager.faceFilterCheck
     }
     fun getWallpaperAsBitmap():Bitmap{
         var wallpaperManager: WallpaperManager = WallpaperManager.getInstance(getApplication())

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
@@ -140,6 +141,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 clock_face_imageview.colorFilter = viewModel.getSelectedFaceColor()
             }else{
                 clock_face_imageview.setImageBitmap(Global.toBitmap(R.drawable.transparent_512))
+            }
+        })
+        viewModel.faceFilterCheck.observe(this, Observer {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (it!!) {
+                    clock_face_imageview.translationZ = Settings.TRANSLATION_LOWER.toFloat()
+                    clock_dial_imageview.translationZ = Settings.TRANSLATION_UPPER.toFloat()
+                } else {
+                    clock_face_imageview.translationZ = Settings.TRANSLATION_UPPER.toFloat()
+                    clock_dial_imageview.translationZ = Settings.TRANSLATION_LOWER.toFloat()
+                }
             }
         })
         viewModel.dialBackgroundCheck.observe(this, Observer {
@@ -278,6 +290,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         white_background_switch.setOnCheckedChangeListener(whiteCheckChangeListener)
         dial_background_switch.setOnCheckedChangeListener(dialCheckChangeListener)
         face_switch.setOnCheckedChangeListener(faceCheckChangeListener)
+        face_filter_switch.setOnCheckedChangeListener(faceFilterCheckChangeListener)
         fab.setOnClickListener(fabClickListener)
         unlock_face_btn.setOnClickListener(unlockFaceClickListener)
         unlock_dial_btn.setOnClickListener(unlockDialClickListener)
@@ -383,6 +396,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }else{
             viewModel.prefManager!!.faceCheck = false
             viewModel.faceCheck.value = false
+        }
+    }
+    val faceFilterCheckChangeListener = CompoundButton.OnCheckedChangeListener{
+        buttonView, isChecked ->
+        if(isChecked){
+            viewModel.prefManager!!.faceFilterCheck = true
+            viewModel.faceFilterCheck.value = true
+        }else{
+            viewModel.prefManager!!.faceFilterCheck = false
+            viewModel.faceFilterCheck.value = false
         }
     }
     val fabClickListener = View.OnClickListener{
