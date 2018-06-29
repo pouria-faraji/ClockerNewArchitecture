@@ -69,7 +69,11 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
                     billingClient.querySkuDetailsAsync(params.build(), { responseCode, skuDetailsList ->
                         // Process the result.
                         if (responseCode == BillingClient.BillingResponse.OK && skuDetailsList != null) {
-                            cancelPurchases()//Should be deleted when app is published.
+
+
+//                            cancelPurchases()//Should be deleted when app is published.
+
+
                             Log.e("logger", "Detail Response OK.")
                             for (skuDetails in skuDetailsList) {
                                 val sku = skuDetails.sku
