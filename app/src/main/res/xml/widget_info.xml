@@ -5,5 +5,5 @@
     android:initialLayout="@layout/widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen|keyguard"
-    android:previewImage="@drawable/splash">
+    android:previewImage="@drawable/icon_512">
 </appwidget-provider>

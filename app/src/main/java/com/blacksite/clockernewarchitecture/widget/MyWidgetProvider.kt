@@ -36,12 +36,9 @@ class MyWidgetProvider : AppWidgetProvider() {
             if(prefManager!!.cachedBitmap != "null") {
                 Log.e("logger", prefManager!!.cachedBitmap)
                 views!!.setImageViewBitmap(R.id.clock_face_imageview_widget, Global.loadImageFromStorage(prefManager!!.cachedBitmap))
-//                views!!.setImageViewResource(R.id.clock_face_imageview_widget, R.drawable.splash_red)
             }
 
             MainViewModel.makeAllGoneWidget(context, prefManager, views!!)
-//            hand.makeAllGoneWidget(context, hand.loadHands()[prefManager!!.handPosition].number!!, prefManager!!.colorCode,views!!)
-
 
             val choiceIntent = Intent(context, MainActivity::class.java)
             val clickPendIntent = PendingIntent.getActivity(context, 0, choiceIntent, PendingIntent.FLAG_UPDATE_CURRENT)

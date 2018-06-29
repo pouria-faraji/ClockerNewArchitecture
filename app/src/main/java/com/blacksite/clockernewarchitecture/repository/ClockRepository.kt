@@ -28,7 +28,6 @@ class ClockRepository {
     var storageRef = storage.reference
 
     private var clockDao:ClockDao? = null
-//    var clockLiveData: LiveData<List<Clock>> = MutableLiveData()
     constructor(application: Application){
         this.clockDao = AppDatabase.getDatabase(application).clockDao()
     }
@@ -90,32 +89,7 @@ class ClockRepository {
 //        return clockDao!!.getAll()
     }
     fun getClocks(type:Int, clockListLiveData: MutableLiveData<List<Clock>>){
-//        refreshClockList()
         clockListLiveData.value = clockDao!!.getAllByType(type)
-
-//        var handler = Handler()
-//        handler.postDelayed({
-//        }, 2000)
-//        var handler2 = Handler()
-//        handler2.postDelayed({
-//        }, 5000)
-
-
-//        refreshClockList()
-//        clockListLiveData.value = clockDao!!.getAllByType(type)
-
-//        return this.clockLiveData
-    }
-
-    private fun refreshClockList() {
-//        this.insert(Clock(1, R.drawable.transparent_512, R.drawable.transparent_512, null, Clock.FACE))
-//        this.insert(Clock(2, R.drawable.lion_512, R.drawable.lion_512_w, null, Clock.FACE))
-//        this.insert(Clock(3, R.drawable.tiger_512, R.drawable.tiger_512_w, null, Clock.FACE))
-//        this.insert(Clock(4, R.drawable.no_dial, R.drawable.no_dial, null, Clock.DIAL))
-//        this.insert(Clock(5, R.drawable.dial_1, R.drawable.dial_1, null, Clock.DIAL))
-//        this.insert(Clock(6, R.drawable.dial_2, R.drawable.dial_2, null, Clock.DIAL))
-//        this.insert(Clock(7, R.drawable.dial_3, R.drawable.dial_3, null, Clock.DIAL))
-//        this.insert(Clock(8, R.drawable.hand_1_grey, R.drawable.hand_1_grey, 1, Clock.HAND))
     }
 
     fun insert(clock: Clock, allClocksLiveData: MutableLiveData<List<Clock>>){

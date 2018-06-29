@@ -27,11 +27,10 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     constructor(context: Context?, itemsList: List<Clock>?, viewModel: MainViewModel) : super() {
         this.context = context
         this.mainViewModel = viewModel
-//        this.itemsList = mainViewModel.convertToGridItem(itemsList!!)
         this.itemsList = itemsList as MutableList<Clock>?
         hashMapSelected = HashMap()
         for (i in 0 until itemsList!!.size) {
-            hashMapSelected!!.put(i, false)
+            hashMapSelected!![i] = false
         }
     }
     inner class ViewHolder(var layout: View) : RecyclerView.ViewHolder(layout){

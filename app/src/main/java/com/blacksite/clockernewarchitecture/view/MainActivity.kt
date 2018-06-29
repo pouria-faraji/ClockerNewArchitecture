@@ -69,8 +69,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         prepareObservers()
     }
 
-
-
     private fun prepareRecylcer(){
         main_grid_recycler.setHasFixedSize(true)
         var layoutManager = GridLayoutManager(this, Settings.NUMBER_OF_ITEMS_EACH_ROW)
@@ -81,7 +79,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             viewModel.refreshClocks()
         })
         viewModel.allClocksLiveData.observe(this, Observer {
-//            if(!viewModel.uiUpdated) {
             if(it!!.isNotEmpty()){
                 loading_layout.visibility = View.GONE
                 main_grid_recycler.visibility = View.VISIBLE
@@ -95,11 +92,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             clock_dial_imageview.setColorFilter(viewModel.getSelectedDialColor(),PorterDuff.Mode.MULTIPLY)
             clock_dial_imageview.visibility = viewModel.getDialBackgroundVisibility()
             createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
-
-//                if(it!!.isNotEmpty()) {
-//                    viewModel.uiUpdated = true
-//                }
-//            }
         })
         viewModel.loadClocksLiveData().observe(this, Observer { list ->
             recyclerAdapter = ItemAdapter(this, list!!, viewModel)
@@ -120,10 +112,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
         viewModel.currentFacePosition.observe(this, Observer {
             clock_face_imageview.setImageBitmap(viewModel.getSelectedFaceImage())
-//            if(viewModel.faces.size != 0) {
-//                Toast.makeText(this, viewModel.faces!![viewModel.currentFacePosition.value!!].uid.toString(), Toast.LENGTH_LONG).show()
-//            }
-
         })
         viewModel.currentHandPosition.observe(this, Observer {
             createHand(viewModel.currentHandPosition.value, viewModel.prefManager.colorCode)
@@ -329,33 +317,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     var unlockFaceClickListener = View.OnClickListener {
-//        viewModel.prefManager.faceLock = false
-//        viewModel.faceLock.value = false
-//        MessageDialog(this, "All faces have been unlocked").show()
         billingViewModel.purchase(this, Settings.UNLOCK_FACE_SKU)
     }
     var unlockDialClickListener = View.OnClickListener {
-//        viewModel.prefManager.dialLock = false
-//        viewModel.dialLock.value = false
-//        MessageDialog(this, "All dial have been unlocked").show()
         billingViewModel.purchase(this, Settings.UNLOCK_DIAL_SKU)
 
     }
     var unlockColorClickListener = View.OnClickListener {
-//        viewModel.prefManager.colorLock = false
-//        viewModel.colorLock.value = false
-//        MessageDialog(this, "Colors have been unlocked").show()
         billingViewModel.purchase(this, Settings.UNLOCK_COLOR_SKU)
     }
     var unlockFeaturesClickListener = View.OnClickListener {
-//        viewModel.prefManager.colorLock = false
-//        viewModel.prefManager.faceLock = false
-//        viewModel.prefManager.dialLock = false
-//        viewModel.colorLock.value = false
-//        viewModel.faceLock.value = false
-//        viewModel.dialLock.value = false
-//        viewModel.featureLock.value = false
-//        MessageDialog(this, "All features have been unlocked").show()
         billingViewModel.purchase(this, Settings.UNLOCK_FEATURES_SKU)
     }
     var showHandColorClickListener = View.OnClickListener { view ->

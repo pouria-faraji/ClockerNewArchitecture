@@ -39,7 +39,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var dials = ArrayList<Clock>()
     var hands = ArrayList<Clock>()
     var generated = false
-    var uiUpdated = false
     var colorPanelClicked = MutableLiveData<Boolean>()
     var mainPanelClicked = MutableLiveData<Boolean>()
     var premiumPanelClicked = MutableLiveData<Boolean>()
@@ -56,11 +55,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         currentDialPosition.value = prefManager!!.dialPosition
         currentHandPosition.value = prefManager!!.handPosition
         mode.value = Clock.FACE
-//        colorPanelClicked.value = false
         clockRepository.getClocks(mode.value!!, clockLiveData)
         clockRepository.getAllClocks(allClocksLiveData, fetchedNetwork, message)
-//        allClocksLiveData = clockRepository.getAllClocks()
-//        clockRepository.getAllClocks(allClocksLiveData)
         whiteBackgroundCheck.value = prefManager!!.whiteBackgroundCheck
         dialBackgroundCheck.value = prefManager!!.dialBackgroundCheck
         faceCheck.value = prefManager!!.faceCheck
@@ -75,16 +71,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return clockLiveData
     }
 
-//    fun convertToGridItem(list:List<Clock>):MutableList<GridItem>{
-//        var result = ArrayList<GridItem>()
-//        for(item in list){
-//            result.add(item.toGridItem())
-//        }
-//        return result.toMutableList()
-//    }
     fun setMode(type:Int){
-//        this.colorPanelClicked.value = false
-//        this.premiumPanelClicked.value = false
         this.mainPanelClicked.value = true
         this.mode.value = type
     }
@@ -113,7 +100,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getSelectedFaceImage():Bitmap{
         return if(faces.size != 0) {
-//            (ContextCompat.getDrawable(getApplication(), if (whiteBackgroundCheck.value!!) (faces!![currentFacePosition.value!!].imageWhite!!) else (faces!![currentFacePosition.value!!].image)) as BitmapDrawable).bitmap
             if(whiteBackgroundCheck.value!!){
                 Global.loadImageFromStorage(Global.absolutePath!!, faces!![currentFacePosition.value!!].imageWhite!!)
             }else{
@@ -125,7 +111,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     fun getSelectedDialImage():Bitmap{
         return if(dials.size != 0) {
-//            (ContextCompat.getDrawable(getApplication(), dials!![currentDialPosition.value!!].image!!) as BitmapDrawable).bitmap
             Global.loadImageFromStorage(Global.absolutePath!!, dials!![currentDialPosition.value!!].image!!)
         }else{
             Global.toBitmap(R.drawable.transparent_512)
@@ -138,20 +123,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return Color.parseColor(prefManager!!.dialColor)
     }
     fun generateReducedBitmaps(){
-//        if(!generated) {
-            reducedBitmaps.value = HashMap<String, Bitmap>()
-            reducedBitmaps.value!!.clear()
-            var tempList = allClocksLiveData.value
-            for (clock in tempList!!) {
-                reducedBitmaps.value!![clock.image!!] = reduceImageAsBitmap(clock.image!!)
-            }
+        reducedBitmaps.value = HashMap<String, Bitmap>()
+        reducedBitmaps.value!!.clear()
+        var tempList = allClocksLiveData.value
+        for (clock in tempList!!) {
+            reducedBitmaps.value!![clock.image!!] = reduceImageAsBitmap(clock.image!!)
+        }
         bitmapsGenerated.value = (bitmapsGenerated.value!!).xor(true)
-//            generated = true
-//        }
+
+
     }
     fun reduceImageAsBitmap(fileName:String):Bitmap{
         var bitmap = Global.loadImageFromStorage(Global.absolutePath!!, fileName)
-//        var bitmap = (ContextCompat.getDrawable(getApplication(), resource) as BitmapDrawable).bitmap
         return Bitmap.createScaledBitmap(bitmap, bitmap.width/3, bitmap.height/3, true)
     }
 
@@ -162,23 +145,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         for(clock in this.allClocksLiveData.value!!){
             if(clock.type == Clock.FACE){
                 Global.addUnique(faces, clock)
-//                faces.add(clock)
             }
             if(clock.type == Clock.DIAL){
                 Global.addUnique(dials, clock)
-//                dials.add(clock)
             }
             if(clock.type == Clock.HAND){
                 Global.addUnique(hands, clock)
-//                hands.add(clock)
             }
         }
         prefManager.handsList = hands
-    }
-
-    fun updateUI() {
-
-//        (ContextCompat.getDrawable(getApplication(), if (whiteBackgroundCheck.value!!) (faces!![currentFacePosition.value!!].imageWhite!!) else (faces!![currentFacePosition.value!!].image)) as BitmapDrawable).bitmap
     }
 
     fun getDialBackgroundVisibility(): Int {
@@ -209,7 +184,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     var resourceIDTemp = context.resources.getIdentifier(resourceNameTemp, "id", context.packageName)
                     views.setViewVisibility(resourceIDTemp, View.GONE)
                 }
-//            remoteViews.setViewVisibility(hand.analogClockWidget!!, View.GONE)
             }
             views.setViewVisibility(resourceID, View.VISIBLE)
         }
