@@ -91,12 +91,16 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center">
-        <pl.droidsonroids.gif.GifImageView
+        <!--<pl.droidsonroids.gif.GifImageView-->
+            <!--android:id="@+id/loading_gif"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:src="@drawable/loading"-->
+            <!--android:background="@drawable/loading"/>-->
+        <ProgressBar
             android:id="@+id/loading_gif"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/loading"
-            android:background="@drawable/loading"/>
+            android:layout_height="100dp"/>
         <LinearLayout
             android:id="@+id/error_image"
             android:layout_width="match_parent"

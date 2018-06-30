@@ -49,6 +49,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var featureLock = MutableLiveData<Boolean>()
     var premiumFace = false
     var premiumDial = false
+    var clickedSKU = String()
     init {
         message.value = Settings.NO_ERROR
         currentFacePosition.value = prefManager!!.facePosition

@@ -105,6 +105,7 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
                 .setSku(skuID)
                 .setType(BillingClient.SkuType.INAPP) // SkuType.SUB for subscription
                 .build()
+        mainViewModel.clickedSKU = skuID
         val responseCode = billingClient.launchBillingFlow(activity, flowParams)
     }
 
@@ -117,8 +118,44 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             }
         } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-        } else {
+        }else if (responseCode == BillingClient.BillingResponse.ITEM_ALREADY_OWNED){
+            handleAlreadyOwned()
+        }
+        else {
             // Handle any other error codes.
+        }
+    }
+
+    private fun handleAlreadyOwned() {
+        if(mainViewModel.clickedSKU == Settings.UNLOCK_FACE_SKU){
+            mainViewModel.prefManager.faceLock = false
+            mainViewModel.faceLock.value = false
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.face_unlocked_message)).show()
+            }
+        }else if(mainViewModel.clickedSKU == Settings.UNLOCK_DIAL_SKU){
+            mainViewModel.prefManager.dialLock = false
+            mainViewModel.dialLock.value = false
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.dial_unlocked_message)).show()
+            }
+        }else if (mainViewModel.clickedSKU == Settings.UNLOCK_COLOR_SKU){
+            mainViewModel.prefManager.colorLock = false
+            mainViewModel.colorLock.value = false
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.color_unlocked_message)).show()
+            }
+        }else if (mainViewModel.clickedSKU == Settings.UNLOCK_FEATURES_SKU){
+            mainViewModel.prefManager.faceLock = false
+            mainViewModel.faceLock.value = false
+            mainViewModel.prefManager.dialLock = false
+            mainViewModel.dialLock.value = false
+            mainViewModel.prefManager.colorLock = false
+            mainViewModel.colorLock.value = false
+            mainViewModel.featureLock.value = false
+            if(!mActivity.isFinishing && !mActivity.isDestroyed) {
+                MessageDialog(mActivity, mActivity.resources.getString(R.string.features_unlocked_message)).show()
+            }
         }
     }
 
