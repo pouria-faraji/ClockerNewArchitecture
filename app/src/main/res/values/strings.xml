@@ -13,6 +13,7 @@
 
 
     <string name="face_unlocked_message">You can now choose all faces.</string>
+    <string name="billing_unavailable_message">Billing Service is unavailable on your device.</string>
     <string name="dial_unlocked_message">You can now choose all dials</string>
     <string name="color_unlocked_message">You can now choose your desired color for faces and dials.</string>
     <string name="features_unlocked_message">All features of the App including all faces, dials, and colors have been unlocked</string>

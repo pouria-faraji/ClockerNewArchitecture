@@ -100,6 +100,13 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             }
         })
     }
+
+    private fun billingUnavailable() {
+        if(!mActivity.isFinishing && !mActivity.isDestroyed) {
+            MessageDialog(mActivity, mActivity.resources.getString(R.string.billing_unavailable_message)).show()
+        }
+    }
+
     fun purchase(activity:Activity, skuID:String){
         val flowParams = BillingFlowParams.newBuilder()
                 .setSku(skuID)
@@ -120,6 +127,8 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
             // Handle an error caused by a user cancelling the purchase flow.
         }else if (responseCode == BillingClient.BillingResponse.ITEM_ALREADY_OWNED){
             handleAlreadyOwned()
+        }else if(responseCode == (-1)){
+            billingUnavailable()
         }
         else {
             // Handle any other error codes.
