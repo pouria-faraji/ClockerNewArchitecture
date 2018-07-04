@@ -137,6 +137,11 @@ class Global {
             return false
         }
 
+        fun getAppVersionName(): String {
+            val pInfo = App.appContext!!.packageManager.getPackageInfo(App.appContext!!.packageName, 0)
+            return pInfo.versionName
+        }
+
 //        fun exportDB() {
 //            try {
 //

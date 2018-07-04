@@ -33,5 +33,7 @@ class Settings {
         const val COLOR_CODE_GREEN = 4
         val TRANSLATION_UPPER = Global.dp_to_px(10)
         val TRANSLATION_LOWER = Global.dp_to_px(1)
+
+        val APP_VERSION_NAME = Global.getAppVersionName()
     }
 }

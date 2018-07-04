@@ -6,6 +6,9 @@
         <variable
             name="mainViewModel"
             type="com.blacksite.clockernewarchitecture.viewModel.MainViewModel"></variable>
+        <variable
+            name="contentMainVM"
+            type="com.blacksite.clockernewarchitecture.viewModel.ContentMainViewModel"></variable>
     </data>
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -26,7 +29,17 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />
+            app:menu="@menu/activity_main_drawer">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#6e6e6e"
+                android:text="@{`Version ` + contentMainVM.appVersionName}"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="bottom"
+                android:gravity="center"/>
+        </android.support.design.widget.NavigationView>
 
     </android.support.v4.widget.DrawerLayout>
+
 </layout>

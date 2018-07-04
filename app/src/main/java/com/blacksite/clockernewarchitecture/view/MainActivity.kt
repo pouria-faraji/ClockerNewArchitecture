@@ -271,6 +271,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var contentMainViewModel = ContentMainViewModel(application)
         activityMainBinding.appBarMainInclude.contentMainInclude.contentMainVM = contentMainViewModel
+        activityMainBinding.contentMainVM = contentMainViewModel
 
         face_color_btn.setOnClickListener(showFaceColorClickListener)
         dial_color_btn.setOnClickListener(showDialColorClickListener)

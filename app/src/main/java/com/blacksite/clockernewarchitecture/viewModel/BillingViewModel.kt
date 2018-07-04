@@ -5,6 +5,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
+import android.widget.Toast
 import com.android.billingclient.api.*
 import com.blacksite.clockernewarchitecture.R
 import com.blacksite.clockernewarchitecture.application.App
@@ -12,6 +13,10 @@ import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
 import com.blacksite.clockernewarchitecture.customView.MessageDialog
 import com.blacksite.clockernewarchitecture.view.MainActivity
+import android.content.Context.TELEPHONY_SERVICE
+import android.telephony.TelephonyManager
+
+
 
 class BillingViewModel(application: Application, activity: Activity, viewModel: MainViewModel) : AndroidViewModel(application), PurchasesUpdatedListener {
     lateinit private var billingClient: BillingClient
@@ -56,6 +61,7 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
                 Log.e("logger", "Billing Setup finished.")
+                Log.e("logger", "Billing Setup Response Code: " + billingResponseCode.toString())
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready. You can query purchases here.
                     Log.e("logger", "Billing Response OK.")
@@ -118,6 +124,7 @@ class BillingViewModel(application: Application, activity: Activity, viewModel: 
 
     override fun onPurchasesUpdated(@BillingClient.BillingResponse responseCode: Int, purchases: List<Purchase>?) {
         Log.e("logger", "Purchase updated.")
+        Log.e("logger", "Purchase Response Code: " + responseCode.toString())
 
         if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
             for (purchase in purchases) {
