@@ -2,6 +2,7 @@ package com.blacksite.clockernewarchitecture.application
 
 class Settings {
     companion object {
+        const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "ClockerDB"
         const val COLLECTION_NAME = "clock"
         const val CLOCK_PNG = "clock.png"
@@ -13,7 +14,6 @@ class Settings {
         const val DB_COLUMN_TYPE = "type"
         const val DB_COLUMN_NUMBER = "number"
         const val DB_COLUMN_PREMIUM = "premium"
-        const val DATABASE_VERSION = 1
         const val UNLOCK_FACE_SKU = "unlock_face"
         const val UNLOCK_DIAL_SKU = "unlock_dial"
         const val UNLOCK_COLOR_SKU = "unlock_color"

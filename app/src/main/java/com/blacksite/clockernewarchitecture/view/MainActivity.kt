@@ -19,9 +19,12 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.text.Spannable
+import android.text.SpannableString
 import android.view.View
 import android.widget.AnalogClock
 import android.widget.CompoundButton
@@ -33,6 +36,7 @@ import com.blacksite.clockernewarchitecture.adapter.ItemAdapter
 import com.blacksite.clockernewarchitecture.application.App
 import com.blacksite.clockernewarchitecture.application.Global
 import com.blacksite.clockernewarchitecture.application.Settings
+import com.blacksite.clockernewarchitecture.customView.CustomTypefaceSpan
 import com.blacksite.clockernewarchitecture.customView.HandColorDialog
 import com.blacksite.clockernewarchitecture.customView.MessageDialog
 import com.blacksite.clockernewarchitecture.databinding.ActivityMainBinding
@@ -48,6 +52,8 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.hand_color_dialog.*
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LifecycleOwner {
@@ -253,9 +259,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         activityMainBinding.navView.setNavigationItemSelectedListener(this)
         activityMainBinding.navView.setCheckedItem(R.id.nav_face)
 
+        fun applyFontToMenuItem(mi:MenuItem){
+            var font = Typeface.createFromAsset(assets, "fonts/Museo Sans W01 Rounded 300.ttf")
+            var mNewTitle = SpannableString(mi.title)
+            mNewTitle.setSpan(CustomTypefaceSpan("", font), 0, mNewTitle.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+            mi.title = mNewTitle
+        }
+
+        val m = activityMainBinding.navView.menu
+        for(i in 0 until m.size()-1){
+            val mi = m.getItem(i)
+            //for aapplying a font to subMenu ...
+            var subMenu = mi.subMenu
+            if (subMenu!=null && subMenu.size() >0 ) {
+                for(j in 0 until subMenu.size()-1){
+                    val subMenuItem = subMenu.getItem(j)
+                    applyFontToMenuItem(subMenuItem)
+                }
+            }
+            //the method we have create in activity
+            applyFontToMenuItem(mi);
+        }
     }
     private fun setup(){
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        Fabric.with(this, Crashlytics())
 //        mAuth = FirebaseAuth.getInstance()
 //        mUser = mAuth!!.currentUser
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
